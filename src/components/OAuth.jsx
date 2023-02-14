@@ -17,7 +17,6 @@ export default function OAuth() {
 
       const docRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(docRef);
-
       if (!docSnap.exists()) {
         await setDoc(docRef, {
           name: user.displayName,
@@ -25,10 +24,9 @@ export default function OAuth() {
           timestamp: serverTimestamp(),
         });
       }
-
       navigate("/");
     } catch (error) {
-      toast.error("Could not authorize with Google");
+      toast.error("Could not sign up with google,Please try again");
     }
   }
   return (
