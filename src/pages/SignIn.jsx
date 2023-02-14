@@ -32,7 +32,7 @@ export default function SignIn() {
         navigate("/");
       }
     } catch (error) {
-      toast.error("Bad user credentials");
+      toast.error("Wrong user credentials");
     }
   }
   return (
@@ -41,8 +41,8 @@ export default function SignIn() {
       <div className="flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto">
         <div className="md:w-[67%] lg:w-[50%] mb-12 md:mb-6">
           <img
-            src="https://images.unsplash.com/flagged/photo-1564767609342-620cb19b2357?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1373&q=80"
-            alt="key"
+            src="https://images.pexels.com/photos/4907442/pexels-photo-4907442.jpeg?auto=compress&cs=tinysrgb&w=600"
+            alt="Hostellife"
             className="w-full rounded-2xl"
           />
         </div>
@@ -54,7 +54,7 @@ export default function SignIn() {
               value={email}
               onChange={onChange}
               placeholder="Email address"
-              className="mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
+              className="mb-6 w-full px-4 py-2 text-md text-gray-700 bg-white border-gray-300 rounded-md transition ease-in-out"
             />
             <div className="relative mb-6">
               <input
@@ -63,7 +63,7 @@ export default function SignIn() {
                 value={password}
                 onChange={onChange}
                 placeholder="Password"
-                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
+                className="w-full px-4 py-2 text-md text-gray-700 bg-white border-gray-300 rounded-md transition ease-in-out"
               />
               {showPassword ? (
                 <AiFillEyeInvisible
@@ -77,7 +77,7 @@ export default function SignIn() {
                 />
               )}
             </div>
-            <div className="flex justify-between whitespace-nowrap text-sm sm:text-lg">
+            <div className="flex justify-between whitespace-nowrap text-sm sm:text-md">
               <p className="mb-6">
                 Don't have a account?
                 <Link
@@ -97,7 +97,7 @@ export default function SignIn() {
               </p>
             </div>
             <button
-              className="w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800"
+              className="w-full bg-[#17202A] text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md  transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800"
               type="submit"
             >
               Sign in

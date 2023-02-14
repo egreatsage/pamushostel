@@ -16,18 +16,18 @@ export default function ForgotPassword() {
     try {
       const auth = getAuth();
       await sendPasswordResetEmail(auth, email);
-      toast.success("Email was sent");
+      toast.success("Email was sent,Check your Email");
     } catch (error) {
-      toast.error("Could not send reset password");
+      toast.error("Could not send reset password,Please try again");
     }
   }
   return (
     <section>
-      <h1 className="text-3xl text-center mt-6 font-bold">Forgot Password</h1>
+      <h1 className="text-2xl text-center mt-6 font-bold">Forgot Password</h1>
       <div className="flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto">
         <div className="md:w-[67%] lg:w-[50%] mb-12 md:mb-6">
           <img
-            src="https://images.unsplash.com/flagged/photo-1564767609342-620cb19b2357?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1373&q=80"
+            src="https://images.pexels.com/photos/4907442/pexels-photo-4907442.jpeg?auto=compress&cs=tinysrgb&w=600"
             alt="key"
             className="w-full rounded-2xl"
           />
@@ -40,10 +40,10 @@ export default function ForgotPassword() {
               value={email}
               onChange={onChange}
               placeholder="Email address"
-              className="mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
+              className="mb-6 w-full px-4 py-2 text-md text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
             />
 
-            <div className="flex justify-between whitespace-nowrap text-sm sm:text-lg">
+            <div className="flex justify-between whitespace-nowrap text-sm sm:text-md">
               <p className="mb-6">
                 Don't have a account?
                 <Link
@@ -63,7 +63,7 @@ export default function ForgotPassword() {
               </p>
             </div>
             <button
-              className="w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800"
+              className="w-full  text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md bg-[#17202A] transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800"
               type="submit"
             >
               Send reset password
