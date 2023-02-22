@@ -1,24 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Spectral&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-body{
-    background-color: #FDFEFE;
-}
-
-.swiper-button-next:after,
-.swiper-button-prev:after{
-    color: #a8dadc;
-}
-
-.swiper-pagination-progressbar .swiper-pagination-progressbar-fill{
-    background: #a8dadc !important
-}
-
-html::-webkit-scrollbar{
-    display: none;
-}
-
-html{
-    scrollbar-width: none;
-}
