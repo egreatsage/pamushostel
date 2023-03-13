@@ -1,238 +1,108 @@
-// import React, { useState } from 'react'
-// import { AiOutlineMail,AiOutlineLock, AiOutlineUser, AiOutlineLogin } from 'react-icons/ai'
-// import {useNavigate } from 'react-router-dom'
-// import { useUserAuth } from '../../Context/UserAuthContext'
-// import dbdataservice from '../../Operations'
-// const StaffSignUp = () => {
-//   const {signUp,user} = useUserAuth();
-//   const [email, setEmail] = useState()
-//   const [username, setUsername] = useState()
-//   const [password, setPassword] = useState()
-//   const navigate = useNavigate();
-//   let userId = user.uid
-//  const handleSubmit = async (e)=>{
-//   try{
-//     await signUp(username, email,password);
-//       navigate('/dashboard')
-//       setmessage('User Added Successfully')
-//   }catch(err){
-//     setError("Problem Adding User")
-//           }  
-//       }
-//       const [message, setmessage] = useState();
-//       const AddUser = async (e) => {
-//         setmessage("");
-//         const newUser = {
-//          username,email,password,userId
-//         };
-//         try {
-          
-//             await dbdataservice.addUser(newUser);
-//             setmessage({ error: false, msg: "New User added successfully!" });
-//               navigate('/dashboard');
-//         } catch (err) {
-//           setmessage({ error: true, msg: err.message });
-//         }
-//       };
-//       const bothh =(e)=>{
-//         e.preventDefault();
-//         AddUser();
-//         handleSubmit();
-        
-  
-//       }
-//   return (
-//    <div>
-//       <div className="min-h-screen max-w-full flex flex-col items-center justify-center bg-white">
-//       <div className="flex flex-col bg-white shadow-md
-//           px-4
-//           sm:px-6
-//           md:px-8
-//           lg:px-10
-//           md:py-8
-//           rounded-3xl
-//           w-full
-//           max-w-md
-//         "
-//       >
-//         <div className="font-medium self-center text-xl sm:text-3xl text-gray-800">
-//          Add User
-//         </div>
-//         <div>
-//           {error?.msg && (
-         
-//                 <Alert 
-//         color={error?.error?'error' :'info'}
-//         onClose={()=> setError('')}
-//         dismissible='true'
-//         >
-//           {''}
-//           {error?.msg}
-//         </Alert>
-         
-       
-//       )}
-//           </div>
-//         <div className="mt-10">
-//           <form onSubmit={bothh}>
-//           <div className="flex flex-col mb-5">
-//               <label
-                
-//                 className="mb-1 text-xs tracking-wide text-gray-600"
-//                 >UserName:</label>
-//               <div className="relative">
-//                 <div
-//                   className="
-//                     inline-flex
-//                     items-center
-//                     justify-center
-//                     absolute
-//                     left-0
-//                     top-0
-//                     h-full
-//                     w-10
-//                     text-gray-400
-//                   "
-//                 >
-//                   <AiOutlineUser/>
-//                 </div>
+import React, { useState } from 'react'
+import { AiFillEyeInvisible, AiFillEye} from 'react-icons/ai'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { useUserAuth } from '../../Context/UserAuthContext'
 
-//                 <input
-                  
-//                   type="name"
-//                   name="name"
-//                   className="
-//                     text-sm
-//                     placeholder-gray-500
-//                     pl-10
-//                     pr-4
-//                     rounded-2xl
-//                     border border-gray-400
-//                     w-full
-//                     py-2
-//                     focus:outline-none focus:border-blue-400
-//                   "
-//                   placeholder="Enter your Username"
-//                   onChange={e=>setUsername(e.target.value)}
-//                 />
-//               </div>
-//             </div>
-//             <div className="flex flex-col mb-5">
-//               <label
-            
-//                 className="mb-1 text-xs tracking-wide text-gray-600">E-Mail Address:</label>
-//               <div className="relative">
-//                 <div
-//                   className="
-//                     inline-flex
-//                     items-center
-//                     justify-center
-//                     absolute
-//                     left-0
-//                     top-0
-//                     h-full
-//                     w-10
-//                     text-gray-400
-//                   "
-//                 >
-//                   <AiOutlineMail/>
-//                 </div>
 
-//                 <input
-                  
-//                   type="email"
-//                   name="email"
-//                   className="
-//                     text-sm
-//                     placeholder-gray-500
-//                     pl-10
-//                     pr-4
-//                     rounded-2xl
-//                     border border-gray-400
-//                     w-full
-//                     py-2
-//                     focus:outline-none focus:border-blue-400
-//                   "
-//                   placeholder="Enter your email"
-//                   onChange={e=>setEmail(e.target.value)}
-//                 />
-//               </div>
-//             </div>
-//             <div className="flex flex-col mb-6">
-//               <label
-               
-//                 className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Password:</label>
-//               <div className="relative">
-//                 <div
-//                   className="
-//                     inline-flex
-//                     items-center
-//                     justify-center
-//                     absolute
-//                     left-0
-//                     top-0
-//                     h-full
-//                     w-10
-//                     text-gray-400
-//                   "
-//                 >
-//                   <span>
-//                     <AiOutlineLock/>
-//                   </span>
-//                 </div>
 
-//                 <input
-                
-//                   type="password"
-//                   name="password"
-//                   className="
-//                     text-sm
-//                     placeholder-gray-500
-//                     pl-10
-//                     pr-4
-//                     rounded-2xl
-//                     border border-gray-400
-//                     w-full
-//                     py-2
-//                     focus:outline-none focus:border-blue-400
-//                   "
-//                   placeholder="Enter your password"
-//                   onChange={e=>setPassword(e.target.value)}
-//                 />
-//               </div>
-//             </div>
-//             <div className="flex w-full">
-//               <button
-//                 type="submit"
-//                 className="
-//                   flex
-//                   mt-2
-//                   items-center
-//                   justify-center
-//                   focus:outline-none
-//                   text-white text-sm
-//                   sm:text-base
-//                   bg-blue-500
-//                   hover:bg-blue-600
-//                   rounded-2xl
-//                   py-2
-//                   w-full
-//                   transition
-//                   duration-150
-//                   ease-in
-//                 "
-//               >
-//                 <span className="mr-2 uppercase">Add</span>
-//                 <span>
-//                 <AiOutlineLogin/>
-//                 </span>
-//               </button>
-//             </div>
-//           </form>
-//         </div>
-//       </div> 
-//     </div>
-//    </div>
-//   )
-// }
-// export default StaffSignUp
+const UsersAdd = () => {
+
+  const {signUp} = useUserAuth();
+  const [email, setEmail] = useState()
+  const [username] = useState()
+  const [password, setPassword] = useState()
+  const [showPassword, setShowPassword] = useState()
+ 
+  const navigate = useNavigate();
+  const handleSubmit = async (e)=>{
+  try{
+    e.preventDefault();
+    await signUp(username, email,password);
+    setTimeout(() => {
+      navigate('/booking')
+     }, 6000);
+    toast.success('Successfully Signed Up')
+  }catch(err){
+    toast.error('Problem Signing in,Try again')
+          }  
+      }    
+  return (
+    <section>
+    <h1 className="text-3xl text-center mt-6 font-bold">Sign Up | New User</h1>
+    <div className="flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto">
+      <div className="md:w-[67%] lg:w-[50%] mb-12 md:mb-6">
+        <img
+          src="https://images.pexels.com/photos/4907442/pexels-photo-4907442.jpeg?auto=compress&cs=tinysrgb&w=600"
+          alt="key"
+          className="w-full rounded-2xl"
+        />
+      </div>
+      <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20">
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            id="email"
+          name='email'
+            onChange={e=>setEmail(e.target.value)}
+            placeholder="Email address"
+            className="mb-6 w-full px-4 border py-2 text-md text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
+          />
+          <div className="relative mb-6">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name='password'
+              onChange={e=>setPassword(e.target.value)}
+              placeholder="Password"
+              className="w-full px-4 py-2 border text-md text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
+            />
+            {showPassword ? (
+              <AiFillEyeInvisible
+                className="absolute right-3 top-3 text-xl cursor-pointer"
+                onClick={() => setShowPassword((prevState) => !prevState)}
+              />
+            ) : (
+              <AiFillEye
+                className="absolute right-3 top-3 text-xl cursor-pointer"
+                onClick={() => setShowPassword((prevState) => !prevState)}
+              />
+            )}
+          </div>
+          <div className="flex justify-between whitespace-nowrap text-sm sm:text-md">
+            <p className="mb-6">
+              Have a account?
+              <Link
+                to="/userlogin"
+                className="text-red-600 hover:text-red-700 transition duration-200 ease-in-out ml-1"
+              >
+                Sign in
+              </Link>
+            </p>
+            <p>
+              <Link
+                to="/forgot-password"
+                className="text-blue-600 hover:text-blue-800 transition duration-200 ease-in-out"
+              >
+                Forgot password?
+              </Link>
+            </p>
+          </div>
+          <button
+            className="w-full bg-[#17202A] text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800"
+            type="submit"
+          >
+            Sign up
+          </button>
+          <div className="flex items-center  my-4 before:border-t before:flex-1 before:border-gray-300 after:border-t after:flex-1 after:border-gray-300">
+            <p className="text-center font-semibold mx-4">OR</p>
+          </div>
+          {/* <OAuth /> */}
+        </form>
+      </div>
+    </div>
+  </section>
+  )
+}
+
+export default UsersAdd

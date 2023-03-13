@@ -43,7 +43,6 @@ const OccupantsAdd = ({ id, setOccupantId }) => {
     setRoomNo("");setExitDate("");
   };
   const editHandler = async () => {
-    toast.success('Successfully Edited')
     try {
       const docSnap = await dbdataservice.getOccupant(id);
       setFName(docSnap.data().FName);

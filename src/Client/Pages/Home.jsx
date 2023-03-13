@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react'
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Typography,
+} from "@material-tailwind/react";
+ 
 import {Link} from 'react-router-dom'
 import Slider from './Slider';
 import { motion } from 'framer-motion';
-import {Button} from '@material-tailwind/react'
 import dbdataservice from '../../Operations'
 import { FcWiFiLogo} from 'react-icons/fc'
 import { GiWaterTank,GiSecurityGate } from 'react-icons/gi'
-import { IoMdArrowDropdown } from 'react-icons/io';
-import { AiOutlineMenu } from 'react-icons/ai'
 import Navbarr from '../Components/Navbar';
 
 
@@ -132,41 +137,111 @@ const Home = () => {
        </div>
        <div className='md:my-24 my-14' id='pricing'>
        <section className='' id='Pricing'>
-  <div className='w-full '>
-    <div className=' max-w-[1240px] mx-auto'>
-    <div className='max-w-[1240px] mx-auto  '>
-            <div className='text-center   text-slate-300 dark:text-orange-600 '>
-                <h2 className='text-3xl  font-extrabold uppercase  md:pt-0  md:mt-3'>Our Pricings</h2>
-                <h3 className='text-2xl md:text-5xl font-semibold  text-[black] py-5'>Affordable Prices for Everyone</h3>
-                <p className='text-xl text-black'>We Offer best price plans to students that
-                    are comfortable with  everybody
-                </p>
-            </div>
-            {roomtypes.map((doc)=>{
-             return(
-            <div className='grid md:grid-cols-3 gap-4 bg-gray-50'>
-                <div className='bg-white dark:bg-blue-gray-500 text-slate-900 p-8  shadow-xl'>
-                    <span className="uppercase px-3 py-1 bg-[#1b1a1b] text-[white] rounded-2xl text-sm">
-                        {doc.Sharing}
-                    </span>
-                    <div>
-                        <p className='text-6xl text-blue-grey-900 font-bold py-4 flex'>{doc.Price}<span className='text-xl text-blue-900 flex flex-col justify-end'>/month</span></p>
-                    </div>
-                    <p className='text-xl font-semibold'>{doc.Desc}</p>
-                    <div>
-                        <Link to='/booking'><Button className="w-full py-4 outline-blue-900 text-xl text-black my-4  bg-slate-500 rounded-full hover:bg-[#87ceeb]">Book Now</Button></Link>
-                    </div>
-                </div>
-                
-                
-                  
-                    </div>
-                        )
-                      })}
-
-                   </div>
-                 </div>
-             </div>
+       <div>
+       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:ml-10 md:mx-4">
+       <Card className="md:w-100 w-full mb-6 mt-3">
+      <CardHeader color="white" className="relative h-56">
+        <img
+          src="https://images.pexels.com/photos/1571450/pexels-photo-1571450.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          alt="img-blur-shadow"
+          className="h-full w-full"
+        />
+      </CardHeader>
+      <CardBody className="text-center">
+        <Typography variant="h5" className="mb-2">
+         Single Rooms
+        </Typography>
+        <Typography>
+        <div><p>  Singel bathroom</p></div>
+        <div><p> Single Toilet</p></div>
+        </Typography>
+      </CardBody>
+      <CardFooter divider className="flex items-center justify-between py-3">
+        <Typography variant="small">Ksh 6000</Typography>
+        <Typography variant="small" color="gray" className="flex gap-1">
+          <Link to='/booking'>
+                      <button className='shadow-md font-bold hover:bg-gray-100 hover:text-black hover:shadow-lg px-4 py-2 rounded-full'>Book Now</button>
+          </Link>
+        </Typography>
+      </CardFooter>
+    </Card>
+    <Card className="md:w-100 w-full mb-6 mt-3">
+      <CardHeader color="white" className="relative h-56">
+        <img
+          src="https://media.istockphoto.com/id/648656476/pl/zdj%C4%99cie/czysty-pok%C3%B3j-w-hostelu-z-drewnianymi-%C5%82%C3%B3%C5%BCkami-pi%C4%99trowymi.jpg?s=612x612&w=0&k=20&c=HI6x9VNcXccKJ1QE6BkSq8E0lvJw8bTrACJdh2h9kGE="
+          alt="img-blur-shadow"
+          className="h-full w-full"
+        />
+      </CardHeader>
+      <CardBody className="text-center">
+        <Typography variant="h5" className="mb-2">
+          2 Sharing
+        </Typography>
+        <Typography>
+          Bathroom and Toilet Sharing
+        </Typography>
+      </CardBody>
+      <CardFooter divider className="flex items-center justify-between py-3">
+        <Typography variant="small">Ksh 4000 /head</Typography>
+        <Typography variant="small" color="gray" className="flex gap-1">
+        <Link to='/booking'>
+                      <button className='shadow-md font-bold hover:bg-gray-100 hover:text-black hover:shadow-lg px-4 py-2 rounded-full'>Book Now</button>
+          </Link>
+        </Typography>
+      </CardFooter>
+    </Card>
+    <Card className="md:w-100 w-full mb-6 mt-3">
+      <CardHeader color="white" className="relative h-56">
+        <img
+          src="https://i.pinimg.com/564x/f7/48/ff/f748ffa862c97b30825e198d81286d0d--shared-boys-rooms-rooms-for-kids.jpg"
+          alt="img-blur-shadow"
+          className="h-full w-full"
+        />
+      </CardHeader>
+      <CardBody className="text-center">
+        <Typography variant="h5" className="mb-2">
+          4 Sharing
+        </Typography>
+        <Typography>
+       Bathroom and Toilet Sharing
+        </Typography>
+      </CardBody>
+      <CardFooter divider className="flex items-center justify-between py-3">
+        <Typography variant="small">Ksh 3000/ head</Typography>
+        <Typography variant="small" color="gray" className="flex gap-1">
+        <Link to='/booking'>
+                      <button className='shadow-md font-bold hover:bg-gray-100 hover:text-black hover:shadow-lg px-4 py-2 rounded-full'>Book Now</button>
+          </Link>
+        </Typography>
+      </CardFooter>
+    </Card>
+      <Card className="md:w-100 w-full mb-6 mt-3">
+      <CardHeader color="white" className="relative h-56">
+        <img
+          src="https://thumbs.dreamstime.com/b/backpackers-stay-hotel-modern-double-decker-beds-inside-dorm-room-twelve-people-window-bedroom-youth-hostel-145333314.jpg"
+          alt="img-blur-shadow"
+          className="h-full w-full"
+        />
+      </CardHeader>
+      <CardBody className="text-center">
+        <Typography variant="h5" className="mb-2">
+        6 sharing
+        </Typography>
+        <Typography>
+        Bathroom And Toilet Sharing
+        </Typography>
+      </CardBody>
+      <CardFooter divider className="flex items-center justify-between py-3">
+        <Typography variant="small">Ksh 2000/ per head</Typography>
+        <Typography variant="small" color="gray" className="flex gap-1">
+        <Link to='/booking'>
+                      <button className='shadow-md font-bold hover:bg-gray-100 hover:text-black hover:shadow-lg px-4 py-2 rounded-full'>Book Now</button>
+          </Link>
+        </Typography>
+      </CardFooter>
+    </Card>
+       </div>
+      </div>
            </section>
        </div>
        <div className='md:my-24 my-14' id="testimonials">

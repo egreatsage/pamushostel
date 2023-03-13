@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { AiFillEyeInvisible, AiFillEye} from 'react-icons/ai'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import OAuth from '../../Common/OAuth'
 import { useUserAuth } from '../../Context/UserAuthContext'
 
 
@@ -97,7 +98,7 @@ const UserSignUp = () => {
           <div className="flex items-center  my-4 before:border-t before:flex-1 before:border-gray-300 after:border-t after:flex-1 after:border-gray-300">
             <p className="text-center font-semibold mx-4">OR</p>
           </div>
-          {/* <OAuth /> */}
+          <OAuth />
         </form>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {Navbar,MobileNav,Typography,Button,IconButton, Menu, MenuHandler, MenuList, MenuItem,} from "@material-tailwind/react";
+import {Navbar,MobileNav,Typography,IconButton, Menu, MenuHandler, MenuList, MenuItem,} from "@material-tailwind/react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
@@ -72,10 +72,10 @@ const Navbarr = () => {
           <span className="text-xl font-bold tracking-wide">Pamus</span>
         </Typography>
         <div className="hidden lg:block">{navList}</div>
-        <Button variant="gradient" size="sm" className="hidden lg:inline-block">
+        <button variant="gradient" size="sm" className="hidden lg:inline-block">
          <Menu>
             <MenuHandler>
-                <button className="bg-none border-white">
+                <button className="bg-none text-black border-white">
                       Login
                 </button>
             </MenuHandler>
@@ -88,7 +88,7 @@ const Navbarr = () => {
                 </Link> 
             </MenuList>
          </Menu>
-        </Button>
+        </button>
         <IconButton
           variant="text"
           className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
@@ -105,7 +105,7 @@ const Navbarr = () => {
       <MobileNav open={openNav}>
         <div className="container mx-auto">
           {navList}
-          <Button variant="gradient" size="sm" fullWidth className="mb-2">
+          <button  size="sm" fullWidth className="mb-2">
           <Menu className='px-6'>
             <MenuHandler>
                 <button className="bg-none border-white text-xl">
@@ -121,7 +121,7 @@ const Navbarr = () => {
                 </Link> 
              </MenuList>
             </Menu>
-          </Button>
+          </button>
         </div>
       </MobileNav>
     </Navbar>

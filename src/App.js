@@ -22,6 +22,7 @@ import Contact from './Client/Pages/ContactUs'
 import UsersAdd from './Admin/Pages/UsersAdd'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ForgotPassword from './Common/ForgotPassword'
 function App() {
   const [staffId, setStaffId] = useState('');
   const [bookingId, setBookingId] = useState('');
@@ -48,6 +49,7 @@ function App() {
         <Route path='/notices' element={<SNotices/>}/>
         <Route path='/rooms' element={<Rooms/>}/>
         <Route path='/contactus' element={<Contact/>}/>
+        <Route path="/forgot-password" element={<ForgotPassword />} />
     
        
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { AiFillEyeInvisible, AiFillEye} from 'react-icons/ai'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import OAuth from '../../../Common/OAuth'
 import Profile from '../../../Common/Profile'
 import { useUserAuth } from '../../../Context/UserAuthContext'
 import Navbarr from '../../Components/Navbar'
@@ -27,14 +28,14 @@ const Login= () => {
       }        
   return (
     <section>
-              <div className='fixed top-2 z-10 w-full'>
+              <div className='fixed top-2 z-10 w-full m'>
     <Navbarr/>
     </div>
-    <h1 className="text-3xl text-center mt-6 font-bold">Sign In | Hosteller</h1>
+    <h1 className="text-3xl text-center mt-20 font-bold">Sign In | Hosteller</h1>
     <div className="flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto">
       <div className="md:w-[67%] lg:w-[50%] mb-12 md:mb-6">
         <img
-          src="https://images.pexels.com/photos/763934/pexels-photo-763934.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          src="https://images.pexels.com/photos/5138173/pexels-photo-5138173.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
           alt="key"
           className="w-full rounded-2xl"
         />
@@ -59,7 +60,6 @@ const Login= () => {
               placeholder="Password"
               className="w-full px-4 py-2 text-md border text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
             />
-            <Profile/>
             {showPassword ? (
               <AiFillEyeInvisible
                 className="absolute right-3 top-3 text-xl cursor-pointer"
@@ -100,7 +100,7 @@ const Login= () => {
           <div className="flex items-center  my-4 before:border-t before:flex-1 before:border-gray-300 after:border-t after:flex-1 after:border-gray-300">
             <p className="text-center font-semibold mx-4">OR</p>
           </div>
-          {/* <OAuth /> */}
+          <OAuth />
         </form>
       </div>
     </div>

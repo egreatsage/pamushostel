@@ -8,13 +8,13 @@ const Dashboard = () => {
   return (
     <div className='bg-white overflow-y-hidden'>
        <Nav/>
-      <div className=''>
+      <div className=' md:mt-24 mt-16 md:mx-10'>
              <div>
               <div className="grid md:grid-cols-4 ml-3 mr-3  pb-6 pt-3">
                 <div className='shadow-md rounded-md bg-[lavender] md:h-16 md:w-[210px] mb-5 w-full flex h-40 justify-between'>
                    <h1 className='md:my-9 my-16 mx-3'>Bookings</h1>
                    <Link className='mx-1 md:my-9 my-16 ' to='/bookings'>
-                    <button className='px-6 bg-gray-100  rounded-md mx-2 '>Open</button>
+                    <button className='px-6 bg-gray-1   rounded-md mx-2 '>Open</button>
                    </Link>
                 </div>
                 <div className='shadow-md rounded-md bg-[lavender] md:h-16 md:w-[210px] mb-5 w-full flex h-40 justify-between'>

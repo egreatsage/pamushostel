@@ -43,7 +43,6 @@ const EmployeeAdd = ({ id, setStaffId }) => {
   };
   
   const editHandler = async () => {
-    toast.success('Edited Successfully')
     try {
       const docSnap = await dbdataservice.getStaff(id);
       setfullname(docSnap.data().fullname);

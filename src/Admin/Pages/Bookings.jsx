@@ -2,9 +2,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from "react-router-dom";
 import dbdataservice from '../../Operations';
-import { AiFillEdit, AiOutlineDownload, AiOutlineSearch } from 'react-icons/ai';
+import { AiFillEdit, AiFillFileExcel, AiOutlineSearch } from 'react-icons/ai';
 import { MdOutlineDeleteForever } from 'react-icons/md';
-import { Input, Menu, MenuHandler, MenuItem, MenuList } from '@material-tailwind/react';
+import { Input} from '@material-tailwind/react';
 import {BsBoxArrowUpRight} from 'react-icons/bs'
 import Nav from '../Components/Nav';
 import { useDownloadExcel } from 'react-export-table-to-excel';
@@ -37,7 +37,7 @@ const Bookings = ({ getBookingId }) => {
   return (
     <div>
        <div><Nav/></div>
-       <div className='md:px-10 px-2 mb-5 mt-9 pt-9 overflow-x-hidden '>
+       <div className=' px-2 mb-5 mt-9 pt-9 overflow-x-hidden '>
       
       <div className='pt-8'>
                  <p className='font-bold mb-3 text-xl  pb-2  text-center'> Booking Details</p>
@@ -46,23 +46,18 @@ const Bookings = ({ getBookingId }) => {
       <Link to='/bookingsadd'>Add</Link>
       <div className="mb-2">
         <button 
-         className='bg-white hover:underline hover:text-blue-600'
+         className='bg-white hover:underline mr-3 hover:text-blue-600'
           onClick={getAllBookings}>
           Refresh
         </button>
       </div>
-      <div className="mb-2 flex gap-3 hover:text-blue-600 hover:underline">
-       <Menu>
-        <MenuHandler>
-         < AiOutlineDownload className='text-[green] text-xl cursor-pointer '/>
-        </MenuHandler>
-        <MenuList>
-          <MenuItem><button onClick={onDownload}>Excel</button></MenuItem>
-          <MenuItem><button onClick={handlePrint}>Excel</button></MenuItem>
-        </MenuList>
-       </Menu>
-        
+      <div>
+      <button className='flex gap-2 text-[green]' onClick={onDownload}>
+          <span>Export</span>
+          <span><AiFillFileExcel/></span>
+        </button>
       </div>
+
     </div>
     <div className='w-64 flex justify-end'>
     <Input variant="standard" label="Search by First Name"  color='teal' onChange={(e) => setSearchedVal(e.target.value)} icon={<AiOutlineSearch/>} />
