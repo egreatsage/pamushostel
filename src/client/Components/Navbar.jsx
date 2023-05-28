@@ -7,7 +7,6 @@ const Navbar = () => {
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
-
   return (
     <div className='fixed top-0 left-0 right-0 z-50 opacity-70'>
        <nav className="shadow-lg bg-white">
