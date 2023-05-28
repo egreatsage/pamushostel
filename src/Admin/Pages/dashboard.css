@@ -12,7 +12,7 @@
 .body-label{
     position: fixed;
     height: 100%;
-    width: calc(100%-200px);
+    width: calc(100%-250px);
     z-index: 30;
     right: -100%;
     top: 0;
@@ -30,18 +30,19 @@
   margin-left: 0;
 }
 .sidebar{
-    width: 200px;
+    width: 250px;
     position: fixed;
     left: 0;
     top:0px;
     height: 100%;
     padding: 1rem;
-    background: rgb(45, 44, 44);
-    color: white;
+    background: white;
+    color: black;
     z-index: 20;
     transition: left 300ms;
     box-shadow: 290px;
-    overflow-y: scroll;
+
+    border-right: #555;
 }
 .sidebar-brand{
     height: 100px;
@@ -120,7 +121,7 @@ header{
     cursor: pointer;
 }
 .main-content{
-    margin-left: 200px;
+    margin-left: 260px;
     transition: margin-left 300ms;
 }
 main{
