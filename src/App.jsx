@@ -2,7 +2,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import Booking from './client/Pages/Booking'
-import ContactUs from './Client/Pages/ContactUs'
+import ContactUs from './client/Pages/ContactUs'
 import Home from './client/Pages/Home'
 import Login from './client/Pages/Login'
 import SignUp from './client/Pages/SignUp'
