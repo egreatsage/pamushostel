@@ -7,7 +7,7 @@ import {BsBoxArrowUpRight} from 'react-icons/bs'
 import { useDownloadExcel } from 'react-export-table-to-excel';
 import Profile from '../../Common/Profile';
 import { TbBrandBooking } from 'react-icons/tb';
-import Loader from '../../Client/Components/Loader';
+import Loader from '../../client/Components/Loader';
 import { Input } from '@material-tailwind/react';
 import Dashboard from './Dashboard';
 const Bookings = ({ getBookingId }) => {

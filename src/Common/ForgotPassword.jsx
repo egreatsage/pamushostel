@@ -1,7 +1,7 @@
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../Client/Components/Navbar";
+import Navbar from "../client/Components/Navbar";
 import OAuth from "./OAuth";
 
 export default function ForgotPassword() {

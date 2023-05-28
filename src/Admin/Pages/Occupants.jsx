@@ -8,7 +8,7 @@ import { Input} from '@material-tailwind/react';
 import { useDownloadExcel } from 'react-export-table-to-excel';
 import Profile from '../../Common/Profile'
 import { TbBrandBooking } from 'react-icons/tb';
-import Loader from '../../Client/Components/Loader';
+import Loader from '../../client/Components/Loader';
 const Users = ({  getOccupantId }) => {
   const [occupants, setOccupants] = useState([]);
   const [loading, setloading] = useState(true)

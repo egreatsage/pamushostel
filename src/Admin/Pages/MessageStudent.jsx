@@ -3,7 +3,7 @@ import { useUserAuth } from "../../Common/UserAuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import dbdataservice from '../../Common/Operations'
 import Swal from "sweetalert2";
-import Loader from "../../Client/Components/Loader";
+import Loader from "../../client/Components/Loader";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import Profile from "../../Common/Profile";
 import { Input, Textarea } from "@material-tailwind/react";

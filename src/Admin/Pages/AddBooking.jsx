@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useUserAuth } from "../../Common/UserAuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import dbdataservice from '../../Common/Operations'
-import Loader from "../../Client/Components/Loader";
+import Loader from "../../client/Components/Loader";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import Profile from "../../Common/Profile";
 import { Alert, Input } from "@material-tailwind/react";
