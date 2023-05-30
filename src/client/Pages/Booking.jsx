@@ -3,7 +3,7 @@ import { useUserAuth } from "../../Common/UserAuthContext";
 import { useNavigate } from "react-router-dom";
 import dbdataservice from '../../Common/Operations'
 import Navbar from '../Components/Navbar'
-import { Input } from "@material-tailwind/react";
+import { Input, Select ,Option} from "@material-tailwind/react";
 const Booking = ({id}) => {
   const {user} = useUserAuth();
   const [fullname, setfullname] = useState('');
@@ -13,7 +13,7 @@ const Booking = ({id}) => {
   const [checkindate, setcheckindate] = useState('');
   const [pgcontact, setpgcontact] = useState('');
   const [pgname, setpgname] = useState('');
-  const [loading, setloading] = useState(false);
+  const [selectedGender, setSelectedGender] = useState('');
   const [emmail, setemmail] = useState('');
   const [message, setmessage] = useState({ error: false, msg: "" });
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const Booking = ({id}) => {
     setmessage("");
     const newBooking = {
      fullname,contact,gender,pgcontact,pgname,
-     institution,emmail,checkindate,userId
+     institution,emmail,checkindate,userId,selectedGender
     };
     console.log(newBooking)
     try {
@@ -43,8 +43,11 @@ const Booking = ({id}) => {
     }
     setfullname(""); setcontact("");setgender("");setpgcontact("");
     setpgname(""); setinstitution('');   setemmail(''); setcheckindate('');
+    setSelectedGender('');
   };
-
+  const handleGenderChange = (e) => {
+    setSelectedGender(e.target.value);
+  };
   const editHandler = async () => {
     setmessage("");
     try {
@@ -70,7 +73,8 @@ const Booking = ({id}) => {
   return (
     <div>
       <Navbar/>
-      <div className='md:mx-10 mt-32 border rounded-md shadow-lg h-screen px-4'>
+      <div className='md:mx-10 mt-32 border rounded-md shadow-lg h-auto px-4 py-8'>
+        <h1 className="mt-8 mb-4 flex md:justify-start justify-center text-xl tracking-wide font-bold">Fill in the details below</h1>
       <form onSubmit={handleSubmit} >
         <div className='grid md:py-6 w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-x-hidden'>
         <div className='my-3'><Input
@@ -101,7 +105,29 @@ const Booking = ({id}) => {
        value={checkindate}
        onChange={(e)=>setcheckindate(e.target.value)}
       /></div>
-        </div> 
+        <div className='my-3 '>
+          <div className="text-gray-600"><label >Gender</label></div>
+          <div className=" flex gap-8">
+          <div className="flex">
+            <label className="mx-2">Male</label>
+            <input type="checkbox"
+            value="Male" 
+            checked={selectedGender === 'Male'}
+            onChange={handleGenderChange} 
+            color="teal" label="standard"/>
+          </div>
+          <div className="flex">
+            <label className="mx-2">Female</label>
+            <input type="checkbox"
+             value="Female" 
+             checked={selectedGender === 'Female'}
+             onChange={handleGenderChange} 
+              color="teal" label="standard"/>
+           </div>
+        </div>
+      </div>
+    </div> 
+      
         <div  className='flex justify-end '> <button type='submit' className='rounded-md bg-[gray] text-white font-semibold px-3 py-1'>Submit </button></div>
       </form>
       </div>

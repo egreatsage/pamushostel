@@ -13,7 +13,7 @@ const Allocate = ({ id }) => {
   const [contact, setcontact] = useState('');
   const [institution, setinstitution] = useState('');
   const [emmail, setemmail] = useState('');
-  const [gender, setgender] = useState('');
+  const [selectedGender, setselectedGender] = useState('');
   const [pgname, setpgname] = useState('');
   const [pgcontact, setpgcontact] = useState('');
   const [checkindate, setcheckindate] = useState('');
@@ -30,7 +30,7 @@ const Allocate = ({ id }) => {
     setmessage('')
       const newOccupant = {
         fullname, contact, institution, emmail, pgname, pgcontact,
-        checkindate,gender,roomno,allocateddate,checkoutdate,userId
+        checkindate,selectedGender,roomno,allocateddate,checkoutdate,userId
       };
       try {
         await dbdataservice.addOccupant(newOccupant);
@@ -53,7 +53,7 @@ const Allocate = ({ id }) => {
     try {
       const docSnap = await dbdataservice.getBooking(id);
       setfullname(docSnap.data().fullname);
-      setgender(docSnap.data().gender);
+      setselectedGender(docSnap.data().selectedGender);
       setcontact(docSnap.data().contact);
       setinstitution(docSnap.data().institution);
       setpgname(docSnap.data().pgname);
@@ -167,6 +167,12 @@ const Allocate = ({ id }) => {
       <Input color='teal' type='tel' className='text-black' variant='standard' label='Phone Number'
        value={contact}
        onChange={(e)=>setcontact(e.target.value)} required/>
+       </div>
+
+       <div className='my-3'>
+      <Input color='teal' type='tel' className='text-black' variant='standard' label='Gender'
+       value={selectedGender}
+       onChange={(e)=>setselectedGender(e.target.value)} required/>
        </div>
 
        <div className='my-3'>

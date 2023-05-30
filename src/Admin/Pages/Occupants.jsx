@@ -9,6 +9,7 @@ import { useDownloadExcel } from 'react-export-table-to-excel';
 import Profile from '../../Common/Profile'
 import { TbBrandBooking } from 'react-icons/tb';
 import Loader from '../../client/Components/Loader';
+import moment from 'moment';
 const Users = ({  getOccupantId }) => {
   const [occupants, setOccupants] = useState([]);
   const [loading, setloading] = useState(true)

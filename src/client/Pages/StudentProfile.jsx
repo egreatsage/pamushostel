@@ -8,36 +8,30 @@ import { AiOutlineMore} from 'react-icons/ai'
 import { Link} from 'react-router-dom'
 import Profile from '../../Common/Profile'
 import Navbar from '../Components/Navbar'
+import moment from 'moment';
 const StudentProfile = () => {
     const { user,} = useUserAuth();
     const [bookings, setBookings] = useState([]);
     const [occupants, setOccupants] = useState([]);
     let userId = user.uid;
-    useEffect(() => {
-        getAllBookings()
-    }, []);
-    const getAllBookings = async () => {
-        const data = await dbdataservice.getAllBookings();
-        setBookings(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        
-    }; 
       useEffect(() => {
         getAllOccupants();
       }, []);
       const getAllOccupants = async () => {
         const data = await dbdataservice.getAllOccupants();
-        if (data === null) {
-          // Display message if data is null
-          console.log('Data is null');
-        } else {
-          setOccupants(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        }
+        setOccupants(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       };
-
     const componentRef = useRef();
       const handlePrint = useReactToPrint({
         content: () => componentRef.current,
       })
+      const calculateDateDifference = (checkInDate, checkOutDate) => {
+        const start = moment(checkInDate);
+        const end = moment(checkOutDate);
+        const duration = moment.duration(end.diff(start));
+        const days = duration.asDays();
+        return days;
+      };
   return (
    <div>
     <div>
@@ -114,7 +108,7 @@ const StudentProfile = () => {
 
             <div className='md:flex gap-1 md:mr-6 mb-2 md:ml-0  ml-4'>
              <div className='md:font-semibold font-normal text-black md:text-gray-800 mr-2'> Period</div>
-              <div className='md:underline my-1 text-sm  text-gray-700 '>{doc.period}</div>
+              <div className='md:underline my-1 text-sm  text-gray-700 '> {calculateDateDifference(doc.checkindate, doc.checkoutdate)} days remaining</div>
             </div>
             <div className="divider mx-3 rounded-lg mb-3 md:hidden"></div>
         
