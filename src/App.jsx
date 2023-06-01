@@ -28,6 +28,8 @@ import SignIn from './client/Pages/SignIn'
 import MessageAdmin from './client/Pages/MessageAdmin'
 import MessageStudent from './Admin/Pages/MessageStudent'
 import Rooms from './Admin/Pages/Rooms'
+import Adminprofile from './Admin/Components/Adminprofile'
+import PaymentStuff from './Admin/Components/PaymentStuff'
 function App() {
   const [bookingId, setBookingId] = useState('');
   const [occupantId, setOccupantId] = useState('');
@@ -65,8 +67,10 @@ function App() {
           <Route path='/messageadmin' element={<MessageAdmin/>}/>
           <Route path='/rules' element={<Rules/>}/>
           <Route path='/myprofile' element={<MyProfile/>}/>
-          <Route path='/occupants' element={<Occupants getOccupantId={getOccupantHandler} />}/>
+          <Route path='/occupants' element={<Occupants  id={occupantId} setOccupantId={setOccupantId} getOccupantId={getOccupantHandler} />}/>
           <Route path='/users' element={<Users/>}/>
+          <Route path='/paymentstuff' element={<PaymentStuff/>}/>
+          <Route path='/adminprofile' element={<Adminprofile/>}/>
           <Route path='/bookings' element={ <Bookings getBookingId={getBookingIdHandler}/>}/>
           <Route path='/addbooking' element={<AddBooking id={bookingId} setBookingId={setBookingId} />}/>
           <Route path='/addoccupant' element={<AddOccupant  id={occupantId} setOccupantId={setOccupantId} />}/>

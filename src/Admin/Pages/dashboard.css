@@ -36,7 +36,7 @@
     top:0px;
     height: 100%;
     padding: 1rem;
-    background: white;
+    background: #8da2fb;
     color: black;
     z-index: 20;
     transition: left 300ms;
@@ -94,7 +94,7 @@ header{
     align-items: center;
     padding: 1rem 1.5rem;
     position: fixed;
-    left: 200px;
+    left: 250px;
     width: calc(100% - 200px);
     top: 0;
     z-index: 20;

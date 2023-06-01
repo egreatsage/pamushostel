@@ -6,8 +6,8 @@ import Swal from "sweetalert2";
 import Loader from "../../client/Components/Loader";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import Profile from "../../Common/Profile";
-import { Input } from "@material-tailwind/react";
-const Allocate = ({ id }) => {
+import { Input, Select ,Option} from "@material-tailwind/react";
+const Allocate = ({ id,roomNo }) => {
   const {user} = useUserAuth();
   const [fullname, setfullname] = useState('');
   const [contact, setcontact] = useState('');
@@ -234,7 +234,14 @@ const Allocate = ({ id }) => {
         required value={userId}
         onChange={(e)=>setuserId(e.target.value)}/>
       </div>
-
+      <select>
+        <option value="">Select Room No</option>
+        {roomNo && roomNo.map((room) => (
+          <option key={room} value={room}>
+            {room}
+          </option>
+        ))}
+      </select>
   </div>
         <div  className='flex justify-end '> <button type='submit' className='rounded-md bg-[gray] text-white font-semibold px-3 py-1'>Submit </button></div>
       </form>

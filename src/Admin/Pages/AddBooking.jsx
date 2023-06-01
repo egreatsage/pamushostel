@@ -13,7 +13,7 @@ const AddBooking = ({ id,setBookingId }) => {
   const [fullname, setfullname] = useState('');
   const [contact, setcontact] = useState('');
   const [institution, setinstitution] = useState('');
-  const [gender, setgender] = useState('');
+  const [selectedGender, setgender] = useState('');
   const [checkindate, setcheckindate] = useState('');
   const [pgcontact, setpgcontact] = useState('');
   const [pgname, setpgname] = useState('');
