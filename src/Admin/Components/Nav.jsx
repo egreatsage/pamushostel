@@ -5,9 +5,9 @@ import Profile from '../../Common/Profile'
 const Nav = () => {
   return (
     <div>
-      <div class="flex space-x-2 my-4">
+      <div class="flex space-x-2 my-4 shadow-lg">
   <div>
-         <div className='flex justify-between'>
+         <div className='flex justify-between shadow-lg border-b border'>
           <div>  <AiOutlineMenu
       class="text-black font-bold text-2xl ml-2 cursor-pointer"
       type="button"

@@ -17,23 +17,16 @@ const UserLogin = () => {
     e.preventDefault();
     await logIn(email,password);
     setTimeout(() => {
-      navigate('/booking')
+      navigate('/studentprofile')
      }, 1000);
   }catch(err){
-    Swal.fire({
-      position: 'top-end',
-      icon: 'error',
-      title: 'Wrong Email or Password',
-      showConfirmButton: true,
-      timer: 2000
-    })
+     alert(err)
           }  
       }        
   return (
-    
     <section>
       <Navbar/>
-    <h1 className="text-3xl text-center  font-bold mt-20">Sign In |  User</h1>
+    <h1 className="text-3xl text-center  font-bold mt-20">Sign In |  studnent</h1>
     <div className="flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto">
       <div className="md:w-[67%] lg:w-[50%] mb-12 md:mb-6">
         <img

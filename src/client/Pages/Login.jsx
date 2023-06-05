@@ -23,15 +23,7 @@ const Login= () => {
      }, 1000);
  
   }catch(err){
-    Swal.fire({
-      title: 'Error!',
-      text: 'Problem signing in, please try again',
-      icon: 'error',
-      timer:3000,
-      width:400,
-      position:'top-right',
-      confirmButtonText: 'Close'
-    })
+    alert('Firebase Error: ' + err.message);
           }  
       }        
   return (

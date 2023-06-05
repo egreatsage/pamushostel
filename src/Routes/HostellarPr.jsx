@@ -5,7 +5,7 @@ import { useUserAuth } from '../Common/UserAuthContext';
 const HostellarPr = ({children}) => {
   let {user} = useUserAuth();
   if(!user){
-    return <Navigate to="/login"/>
+    return <Navigate to="/userlogin"/>
      }   
     return  children;
 }

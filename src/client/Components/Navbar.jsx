@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import {AiOutlineMenu} from 'react-icons/ai'
 import { Link } from 'react-router-dom';
+import { useUserAuth } from '../../Common/UserAuthContext';
 const Navbar = () => {
+  const {user,logOut} = useUserAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
+  const handlelogout= async ()=>{
+    try{
+        await logOut();
+           navigate('/')
+    }catch{     
+    }
+  }
   return (
     <div className='fixed top-0 left-0 right-0 z-50 opacity-70'>
        <nav className="shadow-lg bg-white">
@@ -24,8 +33,12 @@ const Navbar = () => {
               <Link to={'/'} className="text-gray-900 hover:bg-gray-200  hover:font-bold px-3 py-2 rounded-md text-sm font-bold">Home</Link>
               {/* <Link to={'/'} className="text-gray-900 hover:bg-gray-200  hover:font-bold px-3 py-2 rounded-md text-sm font-bold">About</Link> */}
               <Link to={'/studentprofile'} className="text-gray-900 hover:bg-gray-200  hover:font-bold px-3 py-2 rounded-md text-sm font-bold">Student</Link>
-              <Link to={'/booking'} className="text-[orange] hover:bg-gray-200 opacity-100  hover:font-bold px-3 py-2 rounded-full hover:border text-sm font-bold">Book Now</Link>
-              
+              <Link to={'/signin'} className="text-[orange] hover:bg-gray-200 opacity-100  hover:font-bold px-3 py-2 rounded-full hover:border text-sm font-bold">Book Now</Link>
+              {user ? (
+        <button className='hover:border hover:shadow-lg border-red-300 text-[red] px-3 py-1 rounded-lg' onClick={handlelogout}>Logout</button>
+      ) : (
+        <button className='hidden' >Login</button>
+      )}
             </div>
           </div>
           <div className="md:hidden">
@@ -41,7 +54,12 @@ const Navbar = () => {
             <Link to={'/'} className="text-gray-900 hover:bg-gray-200 hover:font-bold block px-3 py-2 rounded-md text-base font-medium">Home</Link>
             {/* <Link to={'/'} className="text-gray-900 hover:bg-gray-200 hover:font-bold block px-3 py-2 rounded-md text-base font-medium">About</Link> */}
             <Link to={'/studentprofile'} className="text-gray-900 hover:bg-gray-200 hover:font-bold block px-3 py-2 rounded-md text-base font-medium">Student</Link>
-            <Link to={'/booking'} className="text-gray-900 hover:bg-gray-200 hover:font-bold block px-3 py-2 rounded-md text-base font-medium">Book Now</Link>
+            <Link to={'/signin'} className="text-gray-900 hover:bg-gray-200 hover:font-bold block px-3 py-2 rounded-md text-base font-medium">Book Now</Link>
+            {user ? (
+        <button className='hover:border hover:shadow-lg border-red-300 text-[red] px-3 py-1 rounded-lg' onClick={handlelogout}>Logout</button>
+      ) : (
+        <button className='hidden' >Login</button>
+      )}
           </div>
         </div>
       )}

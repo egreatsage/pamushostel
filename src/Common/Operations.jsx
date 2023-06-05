@@ -80,9 +80,9 @@ class dbdataservice {
     const occupantDoc = doc(db, "Occupants", id);
     return updateDoc(occupantDoc, updatedOccupant);
   };
-  deleteStaff = (id) => {
-    const staffDoc = doc(db, "Staff", id);
-    return deleteDoc(staffDoc);
+  deleteRoom = (id) => {
+    const RoomsDoc = doc(db, "Rooms", id);
+    return deleteDoc(RoomsDoc);
   };
 
   deleteOccupant = (id) => {

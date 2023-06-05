@@ -9,7 +9,6 @@ const Booking = ({id}) => {
   const [fullname, setfullname] = useState('');
   const [contact, setcontact] = useState('');
   const [institution, setinstitution] = useState('');
-  const [gender, setgender] = useState('');
   const [checkindate, setcheckindate] = useState('');
   const [pgcontact, setpgcontact] = useState('');
   const [pgname, setpgname] = useState('');
@@ -22,8 +21,8 @@ const Booking = ({id}) => {
     e.preventDefault();
     setmessage("");
     const newBooking = {
-     fullname,contact,gender,pgcontact,pgname,
-     institution,emmail,checkindate,userId,selectedGender
+     fullname,contact,pgcontact,pgname,
+     institution,emmail,checkindate,userId,selectedGender, createdAt: new Date().toISOString(),
     };
     console.log(newBooking)
     try {
@@ -41,7 +40,7 @@ const Booking = ({id}) => {
     } catch (err) { 
       setmessage({ error: true, msg: err.message });
     }
-    setfullname(""); setcontact("");setgender("");setpgcontact("");
+    setfullname(""); setcontact("");setpgcontact("");
     setpgname(""); setinstitution('');   setemmail(''); setcheckindate('');
     setSelectedGender('');
   };
@@ -131,6 +130,8 @@ const Booking = ({id}) => {
         <div  className='flex justify-end '> <button type='submit' className='rounded-md bg-[gray] text-white font-semibold px-3 py-1'>Submit </button></div>
       </form>
       </div>
+
+  
       
     </div>
   )

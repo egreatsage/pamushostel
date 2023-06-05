@@ -80,7 +80,8 @@ const StudentProfile = () => {
             </div>
         <div ref={componentRef} className="">
         <h1 className='text-center bold md:text-2xl tracking-wide text-md'>Hosteller Information</h1>
-        {occupants?.filter((room) => room.userId === userId).map((doc, index) => {
+
+        {occupants.length > 0 ?( occupants?.filter((room) => room.userId === userId).map((doc, index) => {
         return(
         <div className='shadow-md md:mx-8 border border-shadow-[black] h-full my-12  rounded-md'>
          <div className='md:flex my-5 mx-1 items-center sm:flex md:border md:shadow-sm  '>
@@ -159,7 +160,10 @@ const StudentProfile = () => {
            </div>
          </div>
         </div>
-       )})}
+       )})):(
+        <p className='text-black text-center p-16 '>no data</p>
+       )}
+       
         </div>
         <div>
 

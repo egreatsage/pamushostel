@@ -38,8 +38,8 @@ const Profile = () => {
         }
       }
   return (
-    <div>
-         <Menu className='overflow-x-hidden'>
+    <div className="overflow-x-hidden">
+         <Menu>
       <MenuHandler>
           <button className='rounded-full '>
             <img src={photoURL} alt="Profile" className=' w-8 h-8  object-cover mt-2 rounded-full border border-gray-500 shadow-md'/>

@@ -30,6 +30,7 @@ import MessageStudent from './Admin/Pages/MessageStudent'
 import Rooms from './Admin/Pages/Rooms'
 import Adminprofile from './Admin/Components/Adminprofile'
 import PaymentStuff from './Admin/Components/PaymentStuff'
+import Allotment from './Admin/Pages/Allotment'
 function App() {
   const [bookingId, setBookingId] = useState('');
   const [occupantId, setOccupantId] = useState('');
@@ -45,7 +46,7 @@ function App() {
   }  
   return (
   <div className=' overflow-hidden'>
-     <BrowserRouter>
+    
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/contactus' element={<ContactUs/>}/>
@@ -59,6 +60,7 @@ function App() {
           <Route path='/userlogin' element={<UserLogin/>}/>
           <Route path='/usersignup' element={<UserSignUp/>}/>
           <Route path='/signup' element={<SignUp/>}/>
+          <Route path='/allotment' element={<Allotment/>}/>
           <Route path='/dashboard' element={<Dashboard/> }/>
           <Route path='/forgot-password' element={<ForgotPassword/>}/>
           <Route path='/notices' element={<SNotices/>}/>
@@ -75,8 +77,12 @@ function App() {
           <Route path='/addbooking' element={<AddBooking id={bookingId} setBookingId={setBookingId} />}/>
           <Route path='/addoccupant' element={<AddOccupant  id={occupantId} setOccupantId={setOccupantId} />}/>
           <Route path='/allocate' element={<Allocate id={bookingId} setBookingId={setBookingId} />}/>
+        
+       
         </Routes>
-        </BrowserRouter>
+     
+
+        
   </div>
   
   )

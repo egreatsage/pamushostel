@@ -45,12 +45,12 @@ export default function ForgotPassword() {
               value={email}
               onChange={onChange}
               placeholder="Email address"
-              className="mb-6 w-full px-4  py-2 text-xl border text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
+              className="mb-6 w-full px-4  py-2 text-xl border text-gray-700 bg-white border-gray-300 rounded-full transition ease-in-out"
             />
 
           
             <button
-              className="w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800"
+              className="w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded-full shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800"
               type="submit"
             >
               Send reset password

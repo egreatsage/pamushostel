@@ -29,7 +29,7 @@ export default function Carosel() {
              Affordable Hostel facility for Students
              </Typography>
              <div className="flex gap-2">
-             <Link to={'/booking'}>
+             <Link to={'/signin'}>
                <Button  className='px-7 py-4 ' color="white">
                  Book now
                </Button>
@@ -66,7 +66,7 @@ export default function Carosel() {
              Affordable Hostel facility for Students
              </Typography>
              <div className="flex gap-2">
-             <Link to={'/booking'}>
+             <Link to={'/signin'}>
                <Button  className='px-7 py-4 ' color="white">
                  Book now
                </Button>
@@ -103,7 +103,7 @@ export default function Carosel() {
              Affordable Hostel facility for Students
              </Typography>
              <div className="flex gap-2">
-             <Link to={'/booking'}>
+             <Link to={'/signin'}>
                <Button  className='px-7 py-4 ' color="white">
                  Book now
                </Button>
@@ -140,7 +140,7 @@ export default function Carosel() {
              Affordable Hostel facility for Students
              </Typography>
              <div className="flex gap-2">
-             <Link to={'/booking'}>
+             <Link to={'/signin'}>
                <Button  className='px-7 py-4 ' color="white">
                  Book now
                </Button>
@@ -177,7 +177,7 @@ export default function Carosel() {
              Affordable Hostel facility for Students
              </Typography>
              <div className="flex gap-2">
-             <Link to={'/booking'}>
+             <Link to={'/signin'}>
                <Button  className='px-7 py-4 ' color="white">
                  Book now
                </Button>

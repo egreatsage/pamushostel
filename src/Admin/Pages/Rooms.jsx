@@ -1,15 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useUserAuth } from "../../Common/UserAuthContext";
-import { Link, useNavigate } from "react-router-dom";
-import dbdataservice from '../../Common/Operations'
-import Loader from "../../client/Components/Loader";
+import { Link} from "react-router-dom";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import Profile from "../../Common/Profile";
-import { Alert, Input } from "@material-tailwind/react";
-import { MdAirplaneTicket } from "react-icons/md";
+import {MdAdminPanelSettings, MdBedroomParent, MdSpaceDashboard } from "react-icons/md";
+import {TbBrandBooking} from 'react-icons/tb'
 import { db } from '../../Common/dbconfig';
+import {FaUsers} from 'react-icons/fa'
 import { collection, getDocs, doc, setDoc, getDoc,addDoc } from 'firebase/firestore';
-import Swal from "sweetalert2";
 import { useDownloadExcel } from "react-export-table-to-excel";
 const Rooms = ({ id,setRoomId }) => {
   const { user } = useUserAuth();
@@ -154,32 +152,38 @@ const Rooms = ({ id,setRoomId }) => {
         <div className="sidebar-main">
         <div className='md:mt-20 mt-8'>
          <div className='my-8 m-8  hover:font-semibold'>
-         <Link  to='/dashboard'>
+         <Link className="flex items-center gap-2" to='/dashboard'>
+             <span><MdSpaceDashboard className="text-xl"/></span>
             <button>Dashboard</button>
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
-         <Link  to='/bookings'>
+         <Link className="flex items-center gap-2" to='/bookings'>
+          <span className="text-xl"><TbBrandBooking/></span>
             <button>Bookings</button>
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
-         <Link  to='/occupants'>
+         <Link className="flex items-center gap-2 " to='/occupants'>
+          <span className="text-xl"><FaUsers/></span>
             <button>Occupants</button>
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
-         <Link  to='/rooms'>
-            <button>Room Management</button>
+         <Link className="flex items-center gap-2 " to='/rooms'>
+          <span className="text-xl"><MdBedroomParent/></span>
+            <button>Rooms</button>
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
-         <Link  to='/users'>
+         <Link className="flex items-center gap-2 " to='/users'>
+          <span className="text-xl"><FaUsers/></span>
             <button>Users</button>
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
-         <Link  to='/adminprofile'>
+         <Link className="flex items-center gap-2 " to='/adminprofile'>
+          <span className="text-xl"><MdAdminPanelSettings/></span>
             <button>Profile</button>
           </Link>
          </div>

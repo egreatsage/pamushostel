@@ -21,16 +21,18 @@ const UserSignUp = () => {
     e.preventDefault();
     await signUp(username, email,password);
     setTimeout(() => {
-      navigate('/booking')
+      navigate('/studentprofile')
      }, 1000);
   }catch(err){
-   
+       return(
+        alert(err)
+       )
           }  
       }    
   return (
     <section>
       <Navbar/>
-    <h1 className="text-3xl text-center mt-20 font-bold">Sign Up | User</h1>
+    <h1 className="text-3xl text-center mt-20 font-bold">Sign Up | student</h1>
     <div className="flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto">
       <div className="md:w-[67%] lg:w-[50%] mb-12 md:mb-6">
         <img

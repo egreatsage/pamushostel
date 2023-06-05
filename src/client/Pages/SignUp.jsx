@@ -1,13 +1,16 @@
-
 import React, { useState } from 'react'
 import { AiFillEyeInvisible, AiFillEye} from 'react-icons/ai'
 import { Link, useNavigate } from 'react-router-dom'
 import OAuth from '../../Common/OAuth'
 import { useUserAuth } from '../../Common/UserAuthContext'
 import Navbar from '../Components/Navbar'
-import Swal from 'sweetalert2'
+import { addDoc, collection } from 'firebase/firestore'
+import { db } from '../../Common/dbconfig'
+
+
 
 const SignUp = () => {
+
   const {signUp} = useUserAuth();
   const [email, setEmail] = useState()
   const [username] = useState()
@@ -16,35 +19,38 @@ const SignUp = () => {
  
   const navigate = useNavigate();
   const handleSubmit = async (e)=>{
-  try{
     e.preventDefault();
-    await signUp(username, email,password);
+  try{
+    if (e) {
+      await signUp(username, email,password)
+    } else {
+     
+      await addDoc(collection(db, 'ActiveUsers'), {
+        username: username,
+        email: email,
+        createdAt: new Date().toISOString(),
+        password:password
+
+        
+      });
+    }  
     setTimeout(() => {
       navigate('/booking')
-     }, 1000);
-   
+     }, 3000);
   }catch(err){
-    Swal.fire({
-      title: 'Error!',
-      text: 'Problem signing in, please try again',
-      icon: 'error',
-      timer:3000,
-      width:400,
-      position:'top-right',
-      confirmButtonText: 'Close'
-    })
+       return(
+        alert(err)
+       )
           }  
       }    
   return (
     <section>
-              <div className='fixed top-2 z-10 w-full'>
-    <Navbar/>
-    </div>
-    <h1 className="text-3xl text-center mt-20 font-bold">Sign Up | Hosteller</h1>
+      <Navbar/>
+    <h1 className="text-3xl text-center mt-20 font-bold">Sign Up</h1>
     <div className="flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto">
       <div className="md:w-[67%] lg:w-[50%] mb-12 md:mb-6">
         <img
-          src="https://images.pexels.com/photos/5138173/pexels-photo-5138173.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          src="https://images.pexels.com/photos/4907442/pexels-photo-4907442.jpeg?auto=compress&cs=tinysrgb&w=600"
           alt="key"
           className="w-full rounded-2xl"
         />
@@ -54,19 +60,19 @@ const SignUp = () => {
           <input
             type="email"
             id="email"
-           name='email'
+          name='email'
             onChange={e=>setEmail(e.target.value)}
             placeholder="Email address"
-            className="mb-6 w-full px-4 py-2 text-md border text-gray-700 bg-white border-gray-300 rounded-full transition ease-in-out"
+            className="mb-6 w-full px-4 border py-2 text-md text-gray-700 bg-white border-gray-300 rounded-full transition ease-in-out"
           />
           <div className="relative mb-6">
             <input
               type={showPassword ? "text" : "password"}
               id="password"
-               name='email'
+              name='password'
               onChange={e=>setPassword(e.target.value)}
               placeholder="Password"
-              className="w-full px-4 py-2 text-md border text-gray-700 bg-white border-gray-300 rounded-full transition ease-in-out"
+              className="w-full px-4 py-2 border text-md text-gray-700 bg-white border-gray-300 rounded-full transition ease-in-out"
             />
             {showPassword ? (
               <AiFillEyeInvisible
@@ -84,7 +90,7 @@ const SignUp = () => {
             <p className="mb-6">
               Have a account?
               <Link
-                to="/login"
+                to="/sigin"
                 className="text-red-600 hover:text-red-700 transition duration-200 ease-in-out ml-1"
               >
                 Sign in

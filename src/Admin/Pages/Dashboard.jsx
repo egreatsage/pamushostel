@@ -1,12 +1,11 @@
 import React, { useEffect, useState ,Fragment} from 'react'
-import {AiOutlineArrowRight, AiOutlineClose, AiOutlineHome, AiOutlineMenu, AiOutlineMessage, AiOutlinePieChart, AiOutlineUser } from 'react-icons/ai'
+import {AiOutlineClose, AiOutlineMenu, AiOutlineMessage} from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import './dashboard.css'
 import Profile from '../../Common/Profile'
-import { MdDeleteForever, MdLiving, MdSpaceDashboard } from 'react-icons/md'
+import { MdAdminPanelSettings, MdBedroomParent, MdDeleteForever, MdLiving, MdOutlineDeleteForever, MdSpaceDashboard } from 'react-icons/md'
 import { TbBrandBooking } from 'react-icons/tb'
 import {FaUsers} from 'react-icons/fa'
-import {IoIosArrowDown} from 'react-icons/io'
 import {BsHouses} from 'react-icons/bs'
 import {
   Accordion,
@@ -87,66 +86,40 @@ const roomCount = rooms.length;
             </div>
           </div>
         </div>
-        <div className=' mt-8'>
+        <div className='md:mt-20 mt-8'>
          <div className='my-8 m-8  hover:font-semibold'>
-         <Link  to='/dashboard'>
+         <Link className="flex items-center gap-2" to='/dashboard'>
+             <span><MdSpaceDashboard className="text-xl"/></span>
             <button>Dashboard</button>
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
-         <Link  to='/bookings'>
+         <Link className="flex items-center gap-2" to='/bookings'>
+          <span className="text-xl"><TbBrandBooking/></span>
             <button>Bookings</button>
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
-         <Link  to='/occupants'>
+         <Link className="flex items-center gap-2 " to='/occupants'>
+          <span className="text-xl"><FaUsers/></span>
             <button>Occupants</button>
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
-         <Link  to='/rooms'>
+         <Link className="flex items-center gap-2 " to='/rooms'>
+          <span className="text-xl"><MdBedroomParent/></span>
             <button>Rooms</button>
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
-         <Link  to='/users'>
+         <Link className="flex items-center gap-2 " to='/users'>
+          <span className="text-xl"><FaUsers/></span>
             <button>Users</button>
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
-          <Link  to='/adminprofile'>
-            <button>Profile</button>
-          </Link>
-         </div>
-         <div className='p-1 bg-white'>
-         </div>
-         <div className='my-8 m-8  hover:font-semibold'>
-          <Link  to='/messagestudent'>
-            <button>Mesage Students</button>
-          </Link>
-         </div>
-         <div className='my-8 m-8  hover:font-semibold'>
-          <Link  to='/adminprofile'>
-            <button>Profile</button>
-          </Link>
-         </div>
-         <div className='my-8 m-8  hover:font-semibold'>
-          <Link  to='/adminprofile'>
-            <button>Profile</button>
-          </Link>
-         </div>
-         <div className='my-8 m-8  hover:font-semibold'>
-          <Link  to='/adminprofile'>
-            <button>Profile</button>
-          </Link>
-         </div>
-         <div className='my-8 m-8  hover:font-semibold'>
-          <Link  to='/adminprofile'>
-            <button>Profile</button>
-          </Link>
-         </div>
-         <div className='my-8 m-8  hover:font-semibold'>
-          <Link  to='/adminprofile'>
+         <Link className="flex items-center gap-2 " to='/adminprofile'>
+          <span className="text-xl"><MdAdminPanelSettings/></span>
             <button>Profile</button>
           </Link>
          </div>
@@ -257,15 +230,21 @@ const roomCount = rooms.length;
       {messages.map((doc,index)=>{
              return(
               <Fragment>
-      <Accordion open={open === 1}>
-        <AccordionHeader className='bg-white' onClick={() => handleOpen(1)}>
-        <span className='mx-1'>{doc.fullname}</span>
+      <Accordion open={open === 1} className='border border-b border-t'>
+        <AccordionHeader className='bg-white flex justify-between' onClick={() => handleOpen(1)}>
+        <span className='mx-1'>{doc.name}</span>
+        <span className='mx-1 text-sm italic'>{doc.createdAt}</span>
         
         </AccordionHeader>
         <AccordionBody className='bg-white flex-col flex  '>
-      <span>  {doc.messsage}</span>
+      <span>  {doc.message}</span>
         <span className='text-gray-900 text-sm italic my-3 underline'>{doc.email}</span>
+        <div className='justify-end flex bg-white pr-4'>
+      <MdOutlineDeleteForever onClick={(e) => 
+              deleteHandler(doc.id)} className='text-[red] text-2xl cursor-pointer'/>
+      </div>
         </AccordionBody>
+      
       </Accordion>
      
     </Fragment>
