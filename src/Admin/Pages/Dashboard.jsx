@@ -204,19 +204,17 @@ const roomCount = rooms.length;
           <div className="jobs-grid">
             <div className="analytics-card mb-3">
                <div className="analytics-head">
-                <h1>Action needed</h1>
-                <span><AiOutlineMessage/></span>
+                <h1>Active Users</h1>
+                <span></span>
                </div>
                <div className="analytics-chart">
-                <div className="chart-circle">
-                  <h1>74%</h1>
+                <div className="">
+                 
                 </div>
-                <div className="analytics-note">
-                  <small>Use the hover utility class from to change the background color of a data row when hovering over the element with the cursor.</small>
-                </div>
+                
                </div>
                <div className="analytics-btn">
-                <button>Generate Report</button>
+                
                </div>
             </div>
             <div className="jobs">
