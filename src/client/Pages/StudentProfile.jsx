@@ -161,7 +161,7 @@ const StudentProfile = () => {
          </div>
         </div>
        )})):(
-        <p className='text-black text-center p-16 '>no data</p>
+        <p className='text-black text-center p-16 '>pending ...</p>
        )}
        
         </div>

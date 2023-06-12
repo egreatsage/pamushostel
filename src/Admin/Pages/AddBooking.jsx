@@ -196,7 +196,6 @@ const AddBooking = ({ id,setBookingId }) => {
       <form onSubmit={handleSubmit} >
       <h1 className="text-xl mx-2 font-semibold tracking-wider">Add/Edit Booking Details</h1>
         <div className='grid md:py-6 w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-x-hidden'>
-          
         <div className='my-3'><Input
          value={fullname}
          onChange={(e)=>setfullname(e.target.value)}

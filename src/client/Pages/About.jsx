@@ -9,13 +9,13 @@ export default function About() {
     <div className='px-3 flex justify-center'>
         <div className="">
          
-          <div className="md:mt-28 mt-8 mb-4 border-gray-400 border-b">
+          <div className="md:mt-28 mt-8 mb-4 border-gray-400 border-b ">
           <h1 className="md:text-3xl text-center text-2xl tracking-widest font-bold text-gray-900">About Us</h1>
        
        <p className=' text-center my-2 tracking-wider text-gray-700 md:mx-10 text-xl md:text-2xl'>Pamus Residency is a mixed student accomodation that offers cheap and affordable accomodations for students all around the country from different institutions </p>
             <div className='flex my-6 mt-10  justify-center gap-16'>
-               <div className="rounded-full bg-none gap-2 ">
-                  <span className='text-[orange] text-5xl font-bold '>15+</span> <span className='text-2xl text-gray-800 font-medium '>parters</span>
+               <div className="rounded-full bg-none gap-2 md:ml-0 ml-12 ">
+                  <span className='text-[orange] text-5xl font-bold '>15+</span> <span className='text-2xl text-gray-800 font-medium '>partners</span>
                </div>
                <div className="rounded-full bg-none ">
                   <span className='text-[orange] text-5xl font-bold '>200+</span> <span className='text-2xl text-gray-800 font-medium '>residents</span>
@@ -24,8 +24,8 @@ export default function About() {
           </div>
              <div className='mt-32 border-b mb-4 border-gray-400  justify-center'>
              <h1 className='md:text-3xl text-center text-2xl tracking-widest font-bold text-gray-900 my-8 mt-8 '>Residence Amenities</h1>
-              <div className='grid grid-cols-2 gap-3 mb-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3  xl:grid-cols-4 justify-center '>
-                  <div className='md:flex my-7 w-44 h-44 md:w-80 md:h-60 '>
+              <div className='grid md:ml-0 ml-3 grid-cols-2 gap-3 mb-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3  xl:grid-cols-4 justify-center '>
+                  <div className='md:flex my-7  w-44 h-44 md:w-80 md:h-60 '>
                     <img className='h-32 w-32 md:h-40 md:w-42' src={security} alt=" security" />
                    <div className=''>
                    <h1 className='text-[orange] text-md font-bold  underline md:pl-9 tracking-wider' >Security</h1>

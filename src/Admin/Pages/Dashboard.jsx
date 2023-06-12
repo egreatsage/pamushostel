@@ -60,7 +60,7 @@ const getAllRooms = async () => {
   setRooms(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 }
 
-const [open, setOpen] = useState(1);
+const [open, setOpen] = useState(0);
  
 const handleOpen = (value) => {
   setOpen(open === value ? 0 : value);
@@ -76,7 +76,6 @@ const roomCount = rooms.length;
           <div className="brand-flex">
             <div className="brand-icons flex ">
               <span>Pamus Admin</span>
-           
             <label htmlFor='sidebar-toggle' className='md:hidden mt-2 flex ml-14'>
             <span>
               <AiOutlineClose className='cursor-pointer'/>
@@ -127,7 +126,7 @@ const roomCount = rooms.length;
 
       </div>
       <div className="main-content">
-          <header>
+          <header className='shadow-md'>
            <div className="menu-toggle">
             <label htmlFor='sidebar-toggle'>
             <span>

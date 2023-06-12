@@ -1,48 +1,203 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { Link } from "react-router-dom";
-import dbdataservice from '../../Common/Operations';
-import { AiFillEdit,AiOutlineClose, AiOutlineMenu, AiOutlineSearch } from 'react-icons/ai';
-import {  MdAdminPanelSettings, MdBedroomParent, MdOutlineDeleteForever, MdSpaceDashboard} from 'react-icons/md';
-import {BsBoxArrowUpRight} from 'react-icons/bs'
-import { useDownloadExcel } from 'react-export-table-to-excel';
-import Profile from '../../Common/Profile';
+import React, { useEffect, useState } from 'react';
+import {
+
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from 'firebase/firestore';
+import { db } from '../../Common/dbconfig';
+import { Input, Option, Select } from '@material-tailwind/react';
+import { useUserAuth } from '../../Common/UserAuthContext';
+import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
+import { MdAdminPanelSettings, MdBedroomParent, MdSpaceDashboard } from 'react-icons/md';
+import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import Loader from '../../client/Components/Loader';
-import { Input } from '@material-tailwind/react';
 import { TbBrandBooking } from 'react-icons/tb';
 import { FaUsers } from 'react-icons/fa';
+import Profile from '../../Common/Profile';
+const AddBooking = ({ id,setBookingId }) => {
+  const {user} = useUserAuth();
+  const [fullname, setfullname] = useState('');
+  const [gender, setgender] = useState('');
+  const [contact, setcontact] = useState('');
+  const [institution, setinstitution] = useState('');
+  const [pgname, setpgname] = useState('');
+  const [selectedGender, setSelectedGender] = useState('');
+  const [pgcontact, setpgcontact] = useState('');
+  const [roomno, setRoomNo] = useState('');
+  const [checkindate, setcheckindate] = useState('');
+  const [studentData,setStudentData] = useState([]);
+  const [roomData,setRoomData] = useState([]);
+  const [schoolData,setSchoolData] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [loading, setloading] = useState(false);
+  let userId = user ? user.uid : null; 
+  let email = user ? user.email : null; 
 
-const Bookings = ({ getBookingId }) => {
-  const [bookings, setBookings] = useState([]);
-  const [loading, setloading] = useState(true)
   
-  useEffect(() => {
-    getAllBookings();
-  }, []);
-
-  const getAllBookings = async () => {
-      const data = await dbdataservice.getAllBookings();
-      setBookings(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-
-        setTimeout(() => {
-          setloading(false)
-        }, 2000);
-  }
-
-  const deleteHandler = async (id) => {
-    await dbdataservice.deleteBooking(id);
-    getAllBookings();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (selectedStudent) {
+        // Update existing room
+        await updateDoc(doc(db, 'Bookings', selectedStudent.docId), {
+          fullname,
+          selectedGender,
+          contact,
+          institution,
+          pgname,
+          pgcontact,
+          checkindate,
+          roomno,
+          email,
+          userId,
+          createdAt: new Date().toISOString(),
+        });
+        Swal.fire({
+          icon:'success',
+          title:'Updated successfully',
+          showConfirmButton: false,
+          timer:2000
+        })
+        await addDoc(collection(db, 'Alloted'), {
+          fullname,
+          selectedGender,
+          contact,
+          institution,
+          pgname,
+          pgcontact,
+          checkindate,
+          roomno,
+          email,
+          userId,
+          createdAt: new Date().toISOString(),
+        });
+      } else {
+        // Add new room
+        await addDoc(collection(db, 'Bookings'), {
+         fullname,
+          selectedGender,
+          contact,
+          institution,
+          pgname,
+          pgcontact,
+          checkindate,
+          roomno,
+          email,
+          userId,
+          createdAt: new Date().toISOString(),
+        });
+       Swal.fire({
+          icon:'success',
+          title:'added successfully',
+          showConfirmButton: false,
+          timer:2000
+        })
+      }
+      setSelectedStudent(null);
+      setfullname('');
+      setSelectedGender('');
+      setcontact('');
+      setinstitution('');
+      setpgname('');
+      setpgcontact('');
+      setcheckindate('');
+      setRoomNo('');
+    } catch (error) {
+      alert(error);
+    }
+  };
+  const handleDelete = async (docId) => {
+    try {
+      await deleteDoc(doc(db, 'Bookings', docId));
+     Swal.fire({
+          icon:'success',
+          title:'deleted successfully',
+          showConfirmButton: false,
+          timer:2000
+        })
+    } catch (error) {
+      alert(error);
+    }
   };
 
-  const tableRef = useRef(null);
-  const [searchedVal, setSearchedVal] = useState("")
-    const { onDownload } = useDownloadExcel({
-        currentTableRef: tableRef.current,
-        filename: 'Bookings ',
-        sheet: 'Bookings '
-    })
-    
+  const handleEdit = (student) => {
+    setSelectedStudent(student);
+    setfullname(student.fullname);
+    setSelectedGender(student.selectedGender);
+    setcontact(student.contact);
+    setinstitution(student.institution);
+    setpgname(student.pgname);
+    setpgcontact(student.pgcontact);
+    setcheckindate(student.checkindate); 
+    setRoomNo(student.roomno);
+  };
+
+  const fetchData = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'Bookings'));
+      const data = querySnapshot.docs.map((doc) => ({
+        docId: doc.id,
+        ...doc.data(),
+      }));
+      setStudentData(data);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const getStatus = (roomno) => {
+    return roomno ? 'Allocated' : 'Pending';
+  };
+
+  const fetchRooms = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'Rooms'));
+      const data = querySnapshot.docs.map((doc) => ({
+        docId: doc.id,
+        ...doc.data(),
+      }));
+      setRoomData(data);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchRooms();
+  }, []);
+  const fetchSchools = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'Universities'));
+      const data = querySnapshot.docs.map((doc) => ({
+        docId: doc.id,
+        ...doc.data(),
+      }));
+      setSchoolData(data);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSchools();
+  }, []);
+
   return (
   <div>
+   
+     <div className="flex justify-end w-8">
+   
+     </div>
+
      {loading ?(
          <Loader/>
         ):
@@ -59,12 +214,11 @@ const Bookings = ({ getBookingId }) => {
               <AiOutlineClose className='cursor-pointer'/>
             </span>
             </label>
-         
             </div>
           </div>
         </div>
         <div className="sidebar-main">
-       
+        
         <div className='md:mt-20 mt-8'>
          <div className='my-8 m-8  hover:font-semibold'>
          <Link className="flex items-center gap-2" to='/dashboard'>
@@ -121,136 +275,115 @@ const Bookings = ({ getBookingId }) => {
             </div>
           </header>
           <main>
-          <div className='overflow-y-auto '>
-  
-  <div className='md:flex md:justify-between overflow-x-hidden mb-10 mt-10'>
-      <div className='md:mt-10 w-full '>
-      <h1 className=' md:text-xl md:ml-4 text-md font-semibold tracking-wider text-gray-700'>Booking Details</h1>
-             <div className='overflow-hidden'>
-         <div className="flex justify-between my-3">
-        <div className='md:ml-8'>
-        <Link to='/addbooking' className='text-md mx-2 hover:underline hover:font-bold'>Add</Link>
-          <button className='text-md hover:font-bold hover:underline'  onClick={getAllBookings} > Refresh</button>
-          <button className='hover:font-bold mx-2 text-green-700 text-md hover:underline'  onClick={onDownload} > Export</button>
-        </div>
+          <div className=''>
+          <div>
+      <form onSubmit={handleSubmit} >
+      <h1 className="text-xl mx-2 font-semibold tracking-wider">Add/Edit/Allot Booking Details</h1>
+        <div className='grid md:py-6 w-full md:border md:rounded-lg md:px-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 mx-2 md:my-6 my-4 overflow-x-hidden'>
+        <div className='my-3'><Input
+         value={fullname}
+         onChange={(e)=>setfullname(e.target.value)}
+        color='teal' type='text' className='text-black' variant='standard' label='Full Name' /></div>
+        <div className='my-3'>    
+            <select
+             variant="standard"
+             label='Select Gender'
+             value={institution}
+             onChange={(e) => setinstitution(e.target.value)}
+             >
+     <option value="">Select School</option>
+   {schoolData.map((school)=>(
+    <option key={school.docId} value={school.Uname}>{school.Uname}</option>
+   ))}
+  </select>
+  </div>
+         <div className='my-3'><Input color='teal' type='tel' className='text-black' variant='standard' label='Phone Number'
+       value={contact}
+       onChange={(e)=>setcontact(e.target.value)} /></div>
+      <div className='my-3'><Input color='teal' type='text' className='text-black' variant='standard' label='Guardian/Parent Name '
+       value={pgname}
+       onChange={(e)=>setpgname(e.target.value)}
+      /></div>
+      <div className='my-3'><Input color='teal' type='tel' className='text-black' variant='standard' label='Guardian/Parent Contact' 
+       value={pgcontact}
+       onChange={(e)=>setpgcontact(e.target.value)}
+      /></div>
+     
+      <div className='my-3'><Input color='teal' type='date' className='text-black' variant='standard' label='Check In' 
+       value={checkindate}
+       onChange={(e)=>setcheckindate(e.target.value)}
+      /></div>
+       <div className="">
+          <select value={roomno} onChange={(e) => setRoomNo(e.target.value)}>
+        <option value="">Select a room</option>
+        {roomData.map((room) => (
+          <option key={room.docId} value={room.roomno}>
+            {room.roomno}
+          </option>
+        ))}
+      </select>
+          </div>
+        </div> 
+        <div  className='flex justify-end mr-8'> <button type='submit' className='rounded-md bg-[#8DA2FB] text-gray-900 font-bold px-4 py-2'>Submit </button></div>
+      </form>
+
         <div>
-        <Input variant="standard" label="Search..."  color='teal' onChange={(e) => setSearchedVal(e.target.value)} icon={<AiOutlineSearch/>} />
-        </div>
-         </div>
-         <div className='bg-white w-full mb-8 overflow-x-auto mx-2'>
-                <table ref={tableRef} className=''>
-                     <thead className='bg-[white] border-b'>
-                     <tr className=''>
-            <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-1 text-center">
-              SNO
-            </th>
-            <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-1 text-center">
-            Full Name
-            </th>
-            <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-1 text-center">
-              Contact
-            </th>
-            <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-1 text-center">
-              Email
-            </th>
-            <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-1 text-center">
-              Gender
-            </th>
-            <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-1 text-center">
-              Institution
-            </th>
-            <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-1 text-center">
-              RoomType
-            </th>
-           
-            <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-1 text-center">
-              P/G Name
-            </th>
-            <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-1 text-center">
-              P/G Contact
-            </th>
-            <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-1 text-center">
-              Check In
-            </th>
-            <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-1 text-center">
-              Allocate
-            </th>
-            <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-1 text-center">
-              Edit
-            </th>
-            <th scope="col" class="text-sm font-semibold text-gray-900 px-6 py-4 text-center">
-              Delete
-            </th>
+
+          <div class="flex flex-col overflow-x-auto">
+  <div class="sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-left text-sm font-light">
+          <thead class="border-b font-medium dark:border-neutral-500">
+            <tr>
+              <th  class="px-6 py-4">#</th>
+              <th  class="px-6 py-4">Name</th>
+              <th  class="px-6 py-4">Gender</th>
+              <th  class="px-6 py-4">Contact</th>
+              <th  class="px-6 py-4">Institution</th>
+              <th  class="px-6 py-4">PgName</th>
+              <th  class="px-6 py-4">PgContact</th>
+              <th  class="px-6 py-4">Checkindate</th>
+              <th  class="px-6 py-4">bookingdate</th>
+              <th  class="px-6 py-4 hidden">UserId</th>
+              <th  class="px-6 py-4">Status</th>
+              <th  class="px-6 py-4">Action</th>
             </tr>
-                     </thead>
-                     {bookings.filter((row) =>
-       !searchedVal.length || row.fullname
-         .toString()
-         .toLowerCase()
-         .includes(searchedVal.toString().toLowerCase()) 
-       ).map((doc,index)=>{
-           return(
-        <tbody>
-             <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index+1}</td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-            {doc.fullname}
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-            {doc.contact}
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-            {doc.emmail}
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-            {doc.selectedGender}
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-            {doc.institution}
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-            {doc.roomtype}
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-            {doc.pgname}
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-            {doc.pgcontact}
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-            {doc.checkindate}
-            </td>
-            <td class="text-sm hidden text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-            {doc.userId}
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-            <Link to='/allocate'>
-            <BsBoxArrowUpRight variant="outlined"  onClick={(e) => 
-             getBookingId(doc.id)} className='text-xl text-[brown]'
-             /></Link>
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-            <Link to='/addbooking'>
-          <AiFillEdit  onClick={(e) =>
-                 getBookingId(doc.id)} className='text-xl text-[brown]'/>
-          </Link>
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-            <MdOutlineDeleteForever  onClick={(e) => 
-            deleteHandler(doc.id)} className='text-[red] text-2xl cursor-pointer'/>
-            </td>
-          </tr>
+          </thead>
+          <tbody>
+             {studentData.map((student,index) => (
+            <tr key={student.docId} class="border-b dark:border-neutral-500">
+              <td class="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
+              <td class="whitespace-nowrap px-6 py-4">{student.fullname}</td>
+              <td class="whitespace-nowrap px-6 py-4">{student.selectedGender}</td>
+              <td class="whitespace-nowrap px-6 py-4">{student.contact}</td>
+              <td class="whitespace-nowrap px-6 py-4">{student.institution}</td>
+              <td class="whitespace-nowrap px-6 py-4">{student.pgname}</td>
+              <td class="whitespace-nowrap px-6 py-4">{student.pgcontact}</td>
+              <td class="whitespace-nowrap px-6 py-4">{student.checkindate}</td>
+              <td class="whitespace-nowrap px-6 py-4">{student.createdAt}</td>
+              <td class="whitespace-nowrap px-6 py-4 hidden">{student.userId}</td>
+              <td class={`whitespace-nowrap px-6 py-4 ${student.roomno ? ' text-green-800 font-extrabold text-md' : ' text-md text-red-900 font-extrabold'}`}>
+        {getStatus(student.roomno)}
+      </td>
+              <td class="whitespace-nowrap px-6 py-4"> <button onClick={() => handleEdit(student) }>Edit</button></td>
+              <td class="whitespace-nowrap px-6 py-4"> <button onClick={() => handleEdit(student) }>Allot</button></td>
+              <td class="whitespace-nowrap px-6 py-4"><button onClick={() => handleDelete(student.docId)}>
+                      Delete
+                    </button></td>
+            </tr>
+             ))}
           </tbody>
-           )
-          })}
-          </table>
-         </div>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
         </div>
       </div>
-   </div>
- </div>
-</main>
-    </div> 
+</div>
+          </main>
+      </div> 
         <label htmlFor="sidebar-toggle" className='body-label'/>
     </div>
 }
@@ -259,4 +392,4 @@ const Bookings = ({ getBookingId }) => {
   )
 }
 
-export default Bookings
+export default AddBooking

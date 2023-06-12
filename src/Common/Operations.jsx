@@ -22,10 +22,7 @@ class dbdataservice {
     return addDoc(bookingCollectionRef, newBooking);
   };
 
-  //
-  addRoomType = (newRoomType) => {
-    return addDoc(roomTypeCollectionRef, newRoomType);
-  };
+
   addRoom = (newRoom) => {
     return addDoc(roomsCollectionRef, newRoom);
   };
@@ -36,14 +33,7 @@ class dbdataservice {
   addStudentMessage = (newStudentMessage) => {
     return addDoc(studentmessagesCollectionRef, newStudentMessage);
   }
-  //Reminders
-  addReminder = (newReminder) => {
-    return addDoc(remindersCollectionRef, newReminder);
-  }
-  //Staff
-  addStaff = (newStaff) => {
-    return addDoc(staffCollectionRef, newStaff);
-  }
+ 
   //Staff
   addOccupant = (newOccupant) => {
     return addDoc(occupantCollectionRef, newOccupant);
@@ -52,20 +42,12 @@ class dbdataservice {
     return addDoc(noticesCollectionRef, newNotice);
   }
    //Messages
-   addUser = (newUser) => {
+  addUser = (newUser) => {
     return addDoc(usersCollectionRef, newUser);
   }
   deleteBooking = (id) => {
     const bookingDoc = doc(db, "Bookings", id);
     return deleteDoc(bookingDoc);
-  };
-  updateStaff = (id, updatedStaff) => {
-    const staffDoc = doc(db, "Staff", id);
-    return updateDoc(staffDoc, updatedStaff);
-  };
-  updateRoomType = (id, updatedRoomType) => {
-    const roomTypeDoc = doc(db, "RoomTypes", id);
-    return updateDoc(roomTypeDoc, updatedRoomType);
   };
   updateBooking = (id, updatedBooking) => {
     const bookingDoc = doc(db, "Bookings", id);
@@ -104,9 +86,7 @@ class dbdataservice {
   getAllBookings = () => {
     return getDocs(bookingCollectionRef);
   }
-  getAllStaff = () => {
-    return getDocs(staffCollectionRef);
-  };
+  
   getAllNotices = () => {
     return getDocs(noticesCollectionRef);
   };
@@ -119,12 +99,6 @@ class dbdataservice {
   getAllUsers = () => {
     return getDocs(usersCollectionRef);
   };
-  getAllReminders = () =>{
-    return getDocs(remindersCollectionRef)
-  }
-  getAllRoomTypes = () =>{
-    return getDocs(roomTypeCollectionRef)
-  }
   getAllOccupants = () => {
     return getDocs(occupantsCollectionRef);
   };

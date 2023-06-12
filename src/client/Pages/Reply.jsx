@@ -6,30 +6,15 @@ const Reply = () => {
   return (
     <div>
      
-        <>
-        <div className='pt-16 h-screen pb-7 mt-16 md:text-3xl font-medium 
-    bg-[lavender] rounded-md'>
-        <div className='px-8 pt-9 mt-9 text-center text-3xl'>
-        Details Submitted Successfully.
-        We will notify you via Email
-        on your Booking Status.Check your portal regularly for Room Updates
-        <div className='mb-7 mt-4 '>
-            <Link to='/'>
-            <Button className='hover:bg-blue-600 ' variant='outlined' >Go Back</Button>
-            </Link></div>
-            <div>
-            <Link to='/studentprofile'>
-            <Button className='hover:bg-blue-600 ' variant='outlined' >My Profile</Button>
-            </Link>
-            </div>
-           
+    <div className=" border border-gray-500 p-8 mt-44 md:mt-48">
+          <h1 className='text-center text-2xl py-8'>Submitted,please wait for a reply from the hostel.Keep Checking your Email</h1>
+        <div className="flex justify-center gap-3 ">
+         <Link className='underline text-xl' to={'/'}> <button className='bg-none hover:font-semibold underline'>Home</button></Link>
+         <Link className='underline text-xl' to={'/studentprofile'}><button className='bg-none hover:font-semibold underline'>Profile</button></Link>
         </div>
-       
     </div>
-        </>
         
     </div>
   )
 }
-
 export default Reply
