@@ -122,12 +122,7 @@ const AllotmentCount = allotments.length
             <button>Occupants</button>
           </Link>
          </div>
-         <div className='my-8 m-8  hover:font-semibold'>
-         <Link className="flex items-center gap-2 " to='/allotment'>
-          <span className="text-xl"><FaUsers/></span>
-            <button>Allotment</button>
-          </Link>
-         </div>
+        
          <div className='my-8 m-8  hover:font-semibold'>
          <Link className="flex items-center gap-2 " to='/rooms'>
           <span className="text-xl"><MdBedroomParent/></span>
@@ -234,19 +229,19 @@ const AllotmentCount = allotments.length
            
           </div>
           <div className="jobs-grid">
-            <div className="analytics-card my-4">
+            <div className="analytics-card my-4 mx-2 pr-2">
                <div className="analytics-head">
-                <h1 className='text-md font-semibold '>Active Occupants</h1>
+                <h1 className='text-md font-semibold '>Active hostellers</h1>
                 <span>({AllotmentCount})</span>
                </div>
                <div>
                {allotments.map((allotment,index)=>(
-              <div key={allotment.docId} className=" overflow-hidden flex gap-3 py-2 border-t border-b">
+              <div key={allotment.docId} className=" overflow-hidden flex justify-between gap-3 py-2 border-t border-b">
               <div>
                 <h1>{allotment.fullname}</h1>
               </div>
               <div>
-                <h1>{allotment.roomno}</h1>
+                <h1 className='text-sm italic'>Room: {allotment.roomno}</h1>
               </div>
               </div>
               ))}

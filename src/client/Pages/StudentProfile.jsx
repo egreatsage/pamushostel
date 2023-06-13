@@ -109,7 +109,7 @@ const StudentProfile = () => {
 
             <div className='md:flex gap-1 md:mr-6 mb-2 md:ml-0  ml-4'>
              <div className='md:font-semibold font-normal text-black md:text-gray-800 mr-2'> Period</div>
-              <div className='md:underline my-1 text-sm  text-gray-700 '> {calculateDateDifference(doc.checkindate, doc.checkoutdate)} days remaining</div>
+              <div className='md:underline my-1 text-sm  text-gray-700 '> {calculateDateDifference(doc.allocateddate, doc.checkoutdate)} days remaining</div>
             </div>
             <div className="divider mx-3 rounded-lg mb-3 md:hidden"></div>
         

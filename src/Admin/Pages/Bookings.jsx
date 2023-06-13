@@ -233,12 +233,7 @@ const Bookings = () => {
             <button>Occupants</button>
           </Link>
          </div>
-         <div className='my-8 m-8  hover:font-semibold'>
-         <Link className="flex items-center gap-2 " to='/allotment'>
-          <span className="text-xl"><MdBedroomParent/></span>
-            <button>Allotment</button>
-          </Link>
-         </div>
+        
          <div className='my-8 m-8  hover:font-semibold'>
          <Link className="flex items-center gap-2 " to='/rooms'>
           <span className="text-xl"><MdBedroomParent/></span>
@@ -351,7 +346,9 @@ const Bookings = () => {
               <th  class="px-6 py-4">bookingdate</th>
               <th  class="px-6 py-4 hidden">UserId</th>
               <th  class="px-6 py-4">Status</th>
-              <th  class="px-6 py-4">Action</th>
+              <th  class="px-6 py-4">Approve</th>
+              <th  class="px-6 py-4">Edit</th>
+              <th  class="px-6 py-4">Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -371,8 +368,8 @@ const Bookings = () => {
               <td class={`whitespace-nowrap px-6 py-4 ${student.roomno ? ' text-green-800 font-extrabold text-md' : ' text-md text-red-900 font-extrabold'}`}>
         {getStatus(student.roomno)}
       </td>
+      <td class="whitespace-nowrap px-6 py-4"> <input className='cursor-pointer ' type='checkbox' onClick={() => handleEdit(student) }/></td>
               <td class="whitespace-nowrap px-6 py-4"> <button onClick={() => handleEdit(student) }>Edit</button></td>
-              <td class="whitespace-nowrap px-6 py-4"> <button onClick={() => handleEdit(student) }>Allot</button></td>
               <td class="whitespace-nowrap px-6 py-4"><button onClick={() => handleDelete(student.docId)}>
                       Delete
                     </button></td>

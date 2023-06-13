@@ -105,7 +105,7 @@ const Users = ({  getOccupantId }) => {
      setcheckoutdate('');
      setroomno('');
      setemmail('');
-     setUserId('');
+     setuserid('');
 
      
 
@@ -117,7 +117,13 @@ const Users = ({  getOccupantId }) => {
  const handleDelete = async (docId) => {
    try {
      await deleteDoc(doc(db, 'Occupants', docId));
-     alert('Deleted successfully');
+     Swal.fire({
+      icon:'success',
+      title:'Successfull',
+      showConfirmButton:false,
+      timer:3000
+     })
+   
    } catch (error) {
      alert(error);
    }
@@ -135,7 +141,7 @@ const Users = ({  getOccupantId }) => {
    setallocateddate(student.allocateddate);
    setcheckoutdate(student.checkoutdate);
    setemmail(student.emmail);
-   setUserId(student.userId);
+   setuserid(student.userId);
 
  };
 
@@ -221,12 +227,6 @@ const Users = ({  getOccupantId }) => {
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
-         <Link className="flex items-center gap-2 " to='/allotment'>
-          <span className="text-xl"><FaUsers/></span>
-            <button>Allotment</button>
-          </Link>
-         </div>
-         <div className='my-8 m-8  hover:font-semibold'>
          <Link className="flex items-center gap-2 " to='/rooms'>
           <span className="text-xl"><MdBedroomParent/></span>
             <button>Rooms</button>
@@ -285,13 +285,12 @@ const Users = ({  getOccupantId }) => {
        onChange={(e)=>setcontact(e.target.value)} /></div>
 
        <div className='my-3'><Input color='teal' type='text' className='text-black' variant='standard' label='Email'
+       value={emmail}
+       onChange={(e)=>setemmail(e.target.value)} /></div>
+
+      <div className='my-3'><Input color='teal' type='tel' className='text-black' variant='standard' label='userId'
        value={userId}
        onChange={(e)=>setuserid(e.target.value)} /></div>
-
-      <div className='my-3'><Input color='teal' type='tel' className='text-black' variant='standard' label='Phone Number'
-       value={userId}
-       onChange={(e)=>setuserid(e.target.value)} /></div>
-
       <div className='my-3'><Input color='teal' type='text' className='text-black' variant='standard' label='Guardian/Parent Name '
        value={pgname}
        onChange={(e)=>setpgname(e.target.value)}
@@ -320,14 +319,14 @@ const Users = ({  getOccupantId }) => {
              value={roomno}
              onChange={(e) => setroomno(e.target.value)}
              >
-     <option className='pt-9' value="">Select School</option>
+     <option className='pt-9' value="">Select Room</option>
    {roomData.map((room)=>(
     <option  key={room.docId} value={room.roomno}>{room.roomno}</option>
    ))}
   </select>
           </div>
         </div> 
-        <div  className='flex justify-end mr-8'> <button type='submit' className='rounded-md bg-[#8DA2FB] text-gray-900 font-bold px-4 py-2'>Submit </button></div>
+        <div  className='flex justify-end mr-8'> <button type='submit' className='rounded-md bg-[green] text-white font-bold px-8 hover:shadow-2xl py-2'>Submit </button></div>
       </form>
   <h1 className="text-md ml-2 my-4 font-semibold ">List Of Ocupants</h1>
      {/* <div className="md:flex md:justify-between">
@@ -388,7 +387,7 @@ const Users = ({  getOccupantId }) => {
               <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                 Checkoutdate
               </th>
-              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+              <th scope="col" class="text-sm  font-medium text-gray-900 px-6 py-4 text-left">
                 Status
               </th>
               <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
@@ -441,9 +440,7 @@ const Users = ({  getOccupantId }) => {
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               {student.checkoutdate}
               </td>
-              <td hidden class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              {student.userId}
-              </td>
+             
               <td  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               {getStatus(student.roomno)}
               </td>
@@ -451,10 +448,13 @@ const Users = ({  getOccupantId }) => {
               {student.createdAt}
               </td>
               <td  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              <button onClick={() => handleEdit(student) }>Edit</button>
+              <button className='px-1 mx-1 text-green-700 font-bold' onClick={() => handleEdit(student) }>Edit</button>
               </td>
               <td  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              <button onClick={() => handleDelete(student.docId)}>Delete</button>
+              <button className='px-1 mx-1 text-green-700 font-bold' onClick={() => handleEdit(student) }>Allot</button>
+              </td>
+              <td  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <button className='px-1 mx-1 text-red-700 font-bold' onClick={() => handleDelete(student.docId)}>Delete</button>
               </td>
             </tr>
             ))}

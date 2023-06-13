@@ -25,6 +25,7 @@ const Rooms = () => {
   const [roomData, setRoomData] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [loading, setloading] = useState(false);
+  const [allotments, setAllotments] = useState([]); 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -104,6 +105,23 @@ const Rooms = () => {
   const getStatus = (roomno) => {
     return roomno ? 'Allocated' : 'Pending';
   };
+
+  const fetchOccupants = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'Alloted'));
+      const data = querySnapshot.docs.map((doc) => ({
+        docId: doc.id,
+        ...doc.data(),
+      }));
+      setAllotments(data);
+    } catch (error) {
+      alert(error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchOccupants();
+  }, []);
   return (
   <div>
    
@@ -207,9 +225,9 @@ const Rooms = () => {
         <div  className='flex justify-end mr-8'> <button type='submit' className='rounded-md bg-[#8DA2FB] text-gray-900 font-bold px-4 py-2'>Submit </button></div>
       </form>
 
-        <div className='grid md:grid-cols-2'>
+        <div className='grid md:grid-cols-2 gap-4'>
        
-        <div>
+        <div className='md:border-r'>
         <h1 className='text-start font-semibold text-md pl-4 my-4 divide-y-2'>List of Rooms</h1>
         <div class="flex flex-col overflow-x-auto">
            
@@ -237,8 +255,8 @@ const Rooms = () => {
                         {getStatus(room.roomno)}
                        </td> */}
                        <td class="whitespace-nowrap px-6 py-4 hidden">{room.createdAt}</td>
-                       <td class="whitespace-nowrap px-6 py-4"> <button onClick={() => handleEdit(room) }>Edit</button></td>
-                       <td class="whitespace-nowrap px-6 py-4"><button onClick={() => handleDelete(room.docId)}>
+                       <td class="px-1 mx-1 "> <button className='px-1 mx-1 text-green-700 font-bold' onClick={() => handleEdit(room) }>Edit</button></td>
+                       <td class="px-1 mx-1 "><button className='px-1 mx-1 text-red-700 font-bold' onClick={() => handleDelete(room.docId)}>
                                Delete
                              </button>
                        </td>
@@ -253,7 +271,38 @@ const Rooms = () => {
         </div>
       
 <div>
-<h1 className='text-start font-semibold text-md pl-4 my-4'>  Room Information</h1>
+<h1 className='text-start font-semibold text-md pl-4 my-4'>  Room Occupant Information</h1>
+<div>
+               <div class="flex flex-col overflow-x-auto">
+           
+           <div class="sm:-mx-6 lg:-mx-8">
+             <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+               <div class="overflow-x-auto">
+                 <table class="min-w-full text-left text-sm font-light">
+                   <thead class="border-b font-medium dark:border-neutral-500">
+                     <tr>
+                       <th  class="px-6 py-4">#</th>
+                       <th  class="px-6 py-4">Name</th>
+                       <th  class="px-6 py-4">Room</th>
+                       <th  class="px-6 py-4 ">Contact</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                      {allotments.map((allotment,index) => (
+                     <tr key={allotment.docId} class="border-b dark:border-neutral-500">
+                       <td class="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
+                       <td class="whitespace-nowrap px-6 py-4">{allotment.fullname}</td>
+                       <td class="whitespace-nowrap px-6 py-4">{allotment.roomno}</td>
+                       <td class="whitespace-nowrap px-6 py-4">{allotment.contact}</td>
+                     </tr>
+                      ))}
+                   </tbody>
+                 </table>
+               </div>
+             </div>
+           </div>
+         </div>
+</div>
 </div>
         </div>
       </div>
