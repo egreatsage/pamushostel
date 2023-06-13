@@ -19,7 +19,7 @@ import Loader from '../../client/Components/Loader';
 import { TbBrandBooking } from 'react-icons/tb';
 import { FaUsers } from 'react-icons/fa';
 import Profile from '../../Common/Profile';
-const AddBooking = ({ id,setBookingId }) => {
+const Bookings = () => {
   const {user} = useUserAuth();
   const [fullname, setfullname] = useState('');
   const [gender, setgender] = useState('');
@@ -28,17 +28,14 @@ const AddBooking = ({ id,setBookingId }) => {
   const [pgname, setpgname] = useState('');
   const [selectedGender, setSelectedGender] = useState('');
   const [pgcontact, setpgcontact] = useState('');
-  const [roomno, setRoomNo] = useState('');
+  const [userId, setuserid] = useState('');
+  const [emmail, setemmail] = useState('');
   const [checkindate, setcheckindate] = useState('');
   const [studentData,setStudentData] = useState([]);
   const [roomData,setRoomData] = useState([]);
   const [schoolData,setSchoolData] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [loading, setloading] = useState(false);
-  let userId = user ? user.uid : null; 
-  let email = user ? user.email : null; 
-
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -52,10 +49,8 @@ const AddBooking = ({ id,setBookingId }) => {
           pgname,
           pgcontact,
           checkindate,
-          roomno,
-          email,
+          emmail,
           userId,
-          createdAt: new Date().toISOString(),
         });
         Swal.fire({
           icon:'success',
@@ -63,7 +58,7 @@ const AddBooking = ({ id,setBookingId }) => {
           showConfirmButton: false,
           timer:2000
         })
-        await addDoc(collection(db, 'Alloted'), {
+        await addDoc(collection(db, 'Occupants'), {
           fullname,
           selectedGender,
           contact,
@@ -71,8 +66,7 @@ const AddBooking = ({ id,setBookingId }) => {
           pgname,
           pgcontact,
           checkindate,
-          roomno,
-          email,
+          emmail,
           userId,
           createdAt: new Date().toISOString(),
         });
@@ -86,8 +80,7 @@ const AddBooking = ({ id,setBookingId }) => {
           pgname,
           pgcontact,
           checkindate,
-          roomno,
-          email,
+          emmail,
           userId,
           createdAt: new Date().toISOString(),
         });
@@ -106,7 +99,9 @@ const AddBooking = ({ id,setBookingId }) => {
       setpgname('');
       setpgcontact('');
       setcheckindate('');
-      setRoomNo('');
+      setuserid('');
+      setemmail('');
+    
     } catch (error) {
       alert(error);
     }
@@ -134,9 +129,10 @@ const AddBooking = ({ id,setBookingId }) => {
     setpgname(student.pgname);
     setpgcontact(student.pgcontact);
     setcheckindate(student.checkindate); 
-    setRoomNo(student.roomno);
+    setuserid(student.userId);
+    setemmail(student.emmail);
+    
   };
-
   const fetchData = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'Bookings'));
@@ -155,9 +151,8 @@ const AddBooking = ({ id,setBookingId }) => {
   }, []);
 
   const getStatus = (roomno) => {
-    return roomno ? 'Allocated' : 'Pending';
+    return roomno ? 'Approved' : 'Pending';
   };
-
   const fetchRooms = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'Rooms'));
@@ -239,11 +234,18 @@ const AddBooking = ({ id,setBookingId }) => {
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
+         <Link className="flex items-center gap-2 " to='/allotment'>
+          <span className="text-xl"><MdBedroomParent/></span>
+            <button>Allotment</button>
+          </Link>
+         </div>
+         <div className='my-8 m-8  hover:font-semibold'>
          <Link className="flex items-center gap-2 " to='/rooms'>
           <span className="text-xl"><MdBedroomParent/></span>
             <button>Rooms</button>
           </Link>
          </div>
+        
          <div className='my-8 m-8  hover:font-semibold'>
          <Link className="flex items-center gap-2 " to='/users'>
           <span className="text-xl"><FaUsers/></span>
@@ -262,7 +264,7 @@ const AddBooking = ({ id,setBookingId }) => {
       </div>
     <div className="main-content">
 
-    <header>
+    <header className='shadow-md'>
            <div className="menu-toggle">
             <label htmlFor='sidebar-toggle'>
             <span>
@@ -276,30 +278,39 @@ const AddBooking = ({ id,setBookingId }) => {
           </header>
           <main>
           <div className=''>
+            <h1 className="text-xl text-center tracking-wider my-8">Booking Management</h1>
           <div>
       <form onSubmit={handleSubmit} >
-      <h1 className="text-xl mx-2 font-semibold tracking-wider">Add/Edit/Allot Booking Details</h1>
-        <div className='grid md:py-6 w-full md:border md:rounded-lg md:px-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 mx-2 md:my-6 my-4 overflow-x-hidden'>
+      <h1 className="text-md mx-2 font-semibold my-4">Add/Edit Booking Details</h1>
+        <div className='grid md:py-8 w-full md:border  md:rounded-lg shadow-md md:p-3  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 mx-2 md:my-6 my-4 overflow-x-hidden'>
         <div className='my-3'><Input
          value={fullname}
          onChange={(e)=>setfullname(e.target.value)}
         color='teal' type='text' className='text-black' variant='standard' label='Full Name' /></div>
         <div className='my-3'>    
-            <select
-             variant="standard"
-             label='Select Gender'
+        <select
+          className='text-blue-gray-400 w-full md:mt-[21px] border-b bg-none border-b-blue-gray-300 '
              value={institution}
              onChange={(e) => setinstitution(e.target.value)}
              >
-     <option value="">Select School</option>
+     <option className='pt-9' value="">Select School</option>
    {schoolData.map((school)=>(
-    <option key={school.docId} value={school.Uname}>{school.Uname}</option>
+    <option  key={school.docId} value={school.Uname}>{school.Uname}</option>
    ))}
   </select>
   </div>
          <div className='my-3'><Input color='teal' type='tel' className='text-black' variant='standard' label='Phone Number'
        value={contact}
        onChange={(e)=>setcontact(e.target.value)} /></div>
+
+       <div className='my-3'><Input color='teal' type='tel' className='text-black' variant='standard' label='Email'
+       value={emmail}
+       onChange={(e)=>setemmail(e.target.value)} /></div>
+
+       <div className='my-3'><Input color='teal' type='text' className='text-black' variant='standard' label='UserId'
+       value={userId}
+       onChange={(e)=>setuserid(e.target.value)} /></div>
+
       <div className='my-3'><Input color='teal' type='text' className='text-black' variant='standard' label='Guardian/Parent Name '
        value={pgname}
        onChange={(e)=>setpgname(e.target.value)}
@@ -314,21 +325,13 @@ const AddBooking = ({ id,setBookingId }) => {
        onChange={(e)=>setcheckindate(e.target.value)}
       /></div>
        <div className="">
-          <select value={roomno} onChange={(e) => setRoomNo(e.target.value)}>
-        <option value="">Select a room</option>
-        {roomData.map((room) => (
-          <option key={room.docId} value={room.roomno}>
-            {room.roomno}
-          </option>
-        ))}
-      </select>
           </div>
         </div> 
         <div  className='flex justify-end mr-8'> <button type='submit' className='rounded-md bg-[#8DA2FB] text-gray-900 font-bold px-4 py-2'>Submit </button></div>
       </form>
-
+            <div className='border my-6'></div>
         <div>
-
+      <h1 className="text-md font-semibold mx-2 my-4 ">List Of Bookings</h1>
           <div class="flex flex-col overflow-x-auto">
   <div class="sm:-mx-6 lg:-mx-8">
     <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -340,6 +343,7 @@ const AddBooking = ({ id,setBookingId }) => {
               <th  class="px-6 py-4">Name</th>
               <th  class="px-6 py-4">Gender</th>
               <th  class="px-6 py-4">Contact</th>
+              <th  class="px-6 py-4">Email</th>
               <th  class="px-6 py-4">Institution</th>
               <th  class="px-6 py-4">PgName</th>
               <th  class="px-6 py-4">PgContact</th>
@@ -357,6 +361,7 @@ const AddBooking = ({ id,setBookingId }) => {
               <td class="whitespace-nowrap px-6 py-4">{student.fullname}</td>
               <td class="whitespace-nowrap px-6 py-4">{student.selectedGender}</td>
               <td class="whitespace-nowrap px-6 py-4">{student.contact}</td>
+              <td class="whitespace-nowrap px-6 py-4">{student.emmail}</td>
               <td class="whitespace-nowrap px-6 py-4">{student.institution}</td>
               <td class="whitespace-nowrap px-6 py-4">{student.pgname}</td>
               <td class="whitespace-nowrap px-6 py-4">{student.pgcontact}</td>
@@ -392,4 +397,4 @@ const AddBooking = ({ id,setBookingId }) => {
   )
 }
 
-export default AddBooking
+export default Bookings

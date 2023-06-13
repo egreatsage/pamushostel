@@ -12,10 +12,9 @@ const occupantsCollectionRef = collection(db, 'Occupants')
 const rulesCollectionRef = collection(db, 'rules')
 const occupantCollectionRef = collection(db, 'Occupants')
 const remindersCollectionRef = collection(db, 'Reminders')
-const roomTypeCollectionRef = collection(db, 'RoomTypes')
 const roomsCollectionRef = collection(db, 'Rooms')
 const studentmessagesCollectionRef = collection(db, 'StudentsMessages')
-
+const allotmentCollectionRef = collection(db,'Alloted')
 class dbdataservice {
   //Bookings
   addBooking = (newBooking) => {
@@ -85,6 +84,9 @@ class dbdataservice {
   };
   getAllBookings = () => {
     return getDocs(bookingCollectionRef);
+  }
+  getAllAllotment = () => {
+    return getDocs(allotmentCollectionRef);
   }
   
   getAllNotices = () => {

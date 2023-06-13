@@ -15,11 +15,7 @@ import AdminPr from './Routes/AdminPr'
 import Rules from './client/Pages/Rules'
 import Dashboard from './Admin/Pages/Dashboard'
 import Occupants from './Admin/Pages/Occupants'
-import Users from './Admin/Pages/Users'
 import Bookings from './Admin/Pages/Bookings'
-import AddBooking from './Admin/Pages/AddBooking'
-import AddOccupant from './Admin/Pages/AddOccuppant'
-import Allocate from './Admin/Pages/Allocate'
 import { useState } from 'react'
 import UserLogin from './client/Pages/UserLogin'
 import UserSignUp from './client/Pages/UserSignUp'
@@ -70,13 +66,11 @@ function App() {
           <Route path='/rules' element={<Rules/>}/>
           <Route path='/myprofile' element={<MyProfile/>}/>
           <Route path='/occupants' element={<Occupants  id={occupantId} setOccupantId={setOccupantId} getOccupantId={getOccupantHandler} />}/>
-          <Route path='/users' element={<Users/>}/>
+      
           <Route path='/paymentstuff' element={<PaymentStuff/>}/>
           <Route path='/adminprofile' element={<Adminprofile/>}/>
           <Route path='/bookings' element={ <Bookings getBookingId={getBookingIdHandler}/>}/>
-          <Route path='/addbooking' element={<AddBooking id={bookingId} setBookingId={setBookingId} />}/>
-          <Route path='/addoccupant' element={<AddOccupant  id={occupantId} setOccupantId={setOccupantId} />}/>
-          <Route path='/allocate' element={<Allocate id={bookingId} setBookingId={setBookingId} />}/>
+         
         
        
         </Routes>

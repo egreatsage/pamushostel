@@ -1,24 +1,22 @@
 import React, { useEffect, useState ,Fragment} from 'react'
-import {AiOutlineClose, AiOutlineMenu, AiOutlineMessage} from 'react-icons/ai'
+import {AiOutlineClose, AiOutlineMenu} from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import './dashboard.css'
 import Profile from '../../Common/Profile'
-import { MdAdminPanelSettings, MdBedroomParent, MdDeleteForever, MdLiving, MdOutlineDeleteForever, MdSpaceDashboard } from 'react-icons/md'
+import { MdAdminPanelSettings, MdBedroomParent,MdOutlineDeleteForever, MdSpaceDashboard } from 'react-icons/md'
 import { TbBrandBooking } from 'react-icons/tb'
 import {FaUsers} from 'react-icons/fa'
 import {BsHouses} from 'react-icons/bs'
-import {
-  Accordion,
-  AccordionHeader,
-  AccordionBody,
-} from "@material-tailwind/react";
+import {Accordion,AccordionHeader,AccordionBody,} from "@material-tailwind/react";
 import dbdataservice from '../../Common/Operations'
+import { collection, getDocs } from 'firebase/firestore'
+import { db } from '../../Common/dbconfig'
 const Dashboard = () => {
     const [messages, setMessages] = useState([]);
     const [bookings, setBookings] = useState([]);
     const [occupants, setOccupants] = useState([]);
     const [rooms, setRooms] = useState([]);
-    const [loading, setloading] = useState(true)  
+    const [allotments, setAllotments] = useState([]); 
   useEffect   (() => {
     getAllMessages();
   }, []);
@@ -39,7 +37,7 @@ const Dashboard = () => {
   const getAllBookings = async () => {
       const data = await dbdataservice.getAllBookings();
       setBookings(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        setloading(false)
+     
   }
   const bookingsCount = bookings.length;
 
@@ -67,6 +65,26 @@ const handleOpen = (value) => {
 };
 
 const roomCount = rooms.length;
+
+const fetchData = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'Occupants'));
+    const data = querySnapshot.docs.map((doc) => ({
+      docId: doc.id,
+      ...doc.data(),
+    }));
+    setAllotments(data);
+  } catch (error) {
+    alert(error);
+  }
+};
+
+useEffect(() => {
+  fetchData();
+}, []);
+
+
+const AllotmentCount = allotments.length
   return (
   <div>
       <div>
@@ -105,11 +123,18 @@ const roomCount = rooms.length;
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
+         <Link className="flex items-center gap-2 " to='/allotment'>
+          <span className="text-xl"><FaUsers/></span>
+            <button>Allotment</button>
+          </Link>
+         </div>
+         <div className='my-8 m-8  hover:font-semibold'>
          <Link className="flex items-center gap-2 " to='/rooms'>
           <span className="text-xl"><MdBedroomParent/></span>
             <button>Rooms</button>
           </Link>
          </div>
+
          <div className='my-8 m-8  hover:font-semibold'>
          <Link className="flex items-center gap-2 " to='/users'>
           <span className="text-xl"><FaUsers/></span>
@@ -153,6 +178,7 @@ const roomCount = rooms.length;
             </div>
           </div>
           <div className="cards">
+            <Link to={'/Bookings'} >
             <div className="card-single">
               <div className="card-flex">
                 <div className="card-info">
@@ -169,6 +195,9 @@ const roomCount = rooms.length;
                 </div>
               </div>
             </div>
+            </Link>
+            
+            <Link to={'/occupants'}>
             <div className="card-single">
               <div className="card-flex">
                 <div className="card-info">
@@ -184,6 +213,8 @@ const roomCount = rooms.length;
                 </div>
               </div>
             </div>
+            </Link>
+            <Link to={'/rooms'}>
             <div className="card-single">
               <div className="card-flex">
                 <div className="card-info">
@@ -199,18 +230,27 @@ const roomCount = rooms.length;
                 </div>
               </div>
             </div>
+              </Link>
+           
           </div>
           <div className="jobs-grid">
-            <div className="analytics-card mb-3">
+            <div className="analytics-card my-4">
                <div className="analytics-head">
-                <h1>Active Users</h1>
-                <span></span>
+                <h1 className='text-md font-semibold '>Active Occupants</h1>
+                <span>({AllotmentCount})</span>
                </div>
-               <div className="analytics-chart">
-                <div className="">
-                 
-                </div>
-                
+               <div>
+               {allotments.map((allotment,index)=>(
+              <div key={allotment.docId} className=" overflow-hidden flex gap-3 py-2 border-t border-b">
+              <div>
+                <h1>{allotment.fullname}</h1>
+              </div>
+              <div>
+                <h1>{allotment.roomno}</h1>
+              </div>
+              </div>
+              ))}
+              
                </div>
                <div className="analytics-btn">
                 
@@ -224,7 +264,7 @@ const roomCount = rooms.length;
       <div className="overflow-hidden">
      <div className="bg-white w-full h-screen">
       <div className="bg-[#F1F5F9] w-full">
-      {messages.map((doc,index)=>{
+      {messages.map((doc)=>{
              return(
               <Fragment>
       <Accordion open={open === 1} className='border border-b border-t'>
