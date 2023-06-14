@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import { AiFillEyeInvisible, AiFillEye} from 'react-icons/ai'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import OAuth from '../../Common/OAuth'
 import { useUserAuth } from '../../Common/UserAuthContext'
 import Navbar from '../Components/Navbar'
 import Swal from 'sweetalert2'
 
-
 const Login= () => {
-  const {logIn} = useUserAuth();
+  const {logIn,user} = useUserAuth();
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   const [showPassword, setShowPassword] = useState()
@@ -23,9 +22,22 @@ const Login= () => {
      }, 1000);
  
   }catch(err){
-    alert('Firebase Error: ' + err.message);
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: err.message,
+      timer:7000
+
+    })
           }  
-      }        
+      }  
+      const isAdmin = user.email ==="admin@gmail.com"
+      if (isAdmin) {
+        setTimeout(() => {
+          return <Navigate to="/dashboard" />;
+        }, 2000);
+       
+      }     
   return (
     <section>
               <div className='fixed top-2 z-10 w-full m'>

@@ -326,7 +326,7 @@ const Users = ({  getOccupantId }) => {
   </select>
           </div>
         </div> 
-        <div  className='flex justify-end mr-8'> <button type='submit' className='rounded-md bg-[green] text-white font-bold px-8 hover:shadow-2xl py-2'>Submit </button></div>
+        <div  className='flex justify-end mr-8'> <button type='submit' className='rounded-md bg-[#8DA2FB] text-white font-bold px-8 hover:shadow-2xl py-2'>Submit </button></div>
       </form>
   <h1 className="text-md ml-2 my-4 font-semibold ">List Of Ocupants</h1>
      {/* <div className="md:flex md:justify-between">

@@ -27,6 +27,7 @@ import Rooms from './Admin/Pages/Rooms'
 import Adminprofile from './Admin/Components/Adminprofile'
 import PaymentStuff from './Admin/Components/PaymentStuff'
 import Allotment from './Admin/Pages/Allotment'
+import Users from './Admin/Pages/Users'
 function App() {
   const [bookingId, setBookingId] = useState('');
   const [occupantId, setOccupantId] = useState('');
@@ -66,7 +67,7 @@ function App() {
           <Route path='/rules' element={<Rules/>}/>
           <Route path='/myprofile' element={<MyProfile/>}/>
           <Route path='/occupants' element={<Occupants  id={occupantId} setOccupantId={setOccupantId} getOccupantId={getOccupantHandler} />}/>
-      
+          <Route path='/users' element={<Users/>}/>
           <Route path='/paymentstuff' element={<PaymentStuff/>}/>
           <Route path='/adminprofile' element={<Adminprofile/>}/>
           <Route path='/bookings' element={ <Bookings getBookingId={getBookingIdHandler}/>}/>

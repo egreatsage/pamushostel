@@ -216,7 +216,9 @@ const AllotmentCount = allotments.length
                   <div className="card-head">
                        <span>Rooms</span>
                        <small>Rooms Available</small>
+                    
                   </div>
+                  <div className='text-white'>r</div>
                   <h2>{roomCount}</h2>
                   
                 </div>

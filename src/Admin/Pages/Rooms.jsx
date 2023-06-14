@@ -222,7 +222,7 @@ const Rooms = () => {
        onChange={(e)=>setGender(e.target.value)} /></div>
       
         </div> 
-        <div  className='flex justify-end mr-8'> <button type='submit' className='rounded-md bg-[#8DA2FB] text-gray-900 font-bold px-4 py-2'>Submit </button></div>
+        <div  className='flex justify-end mr-8'> <button type='submit' className='rounded-md bg-[#8DA2FB] text-white font-bold px-4 py-2'>Submit </button></div>
       </form>
 
         <div className='grid md:grid-cols-2 gap-4'>

@@ -322,7 +322,7 @@ const Bookings = () => {
        <div className="">
           </div>
         </div> 
-        <div  className='flex justify-end mr-8'> <button type='submit' className='rounded-md bg-[#8DA2FB] text-gray-900 font-bold px-4 py-2'>Submit </button></div>
+        <div  className='flex justify-end mr-8'> <button type='submit' className='rounded-md bg-[#8DA2FB] text-white font-bold px-4 py-2'>Submit </button></div>
       </form>
             <div className='border my-6'></div>
         <div>

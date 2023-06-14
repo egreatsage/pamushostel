@@ -1,28 +1,37 @@
 import React, { useState } from 'react'
 import { AiFillEyeInvisible, AiFillEye} from 'react-icons/ai'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import OAuth from '../../Common/OAuth'
 import { useUserAuth } from '../../Common/UserAuthContext'
 import Swal from 'sweetalert2'
 import Navbar from '../Components/Navbar'
 const UserLogin = () => {
-    const {logIn} = useUserAuth();
+  const {logIn} = useUserAuth();
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   const [showPassword, setShowPassword] = useState()
- 
   const navigate = useNavigate();
+  
   const handleSubmit = async (e)=>{
   try{
     e.preventDefault();
     await logIn(email,password);
+   
     setTimeout(() => {
       navigate('/studentprofile')
      }, 1000);
   }catch(err){
-     alert(err)
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: err.message,
+      timer:7000,
+      showConfirmButton: false,
+
+    })
           }  
-      }        
+      }  
+           
   return (
     <section>
       <Navbar/>

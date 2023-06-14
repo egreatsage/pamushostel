@@ -21,19 +21,16 @@ const SignUp = () => {
   const handleSubmit = async (e)=>{
     e.preventDefault();
   try{
-    if (e) {
+   
       await signUp(username, email,password)
-    } else {
-     
       await addDoc(collection(db, 'ActiveUsers'), {
-        username: username,
+        
         email: email,
         createdAt: new Date().toISOString(),
         password:password
 
         
       });
-    }  
     setTimeout(() => {
       navigate('/booking')
      }, 3000);

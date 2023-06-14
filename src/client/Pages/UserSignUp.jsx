@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import OAuth from '../../Common/OAuth'
 import { useUserAuth } from '../../Common/UserAuthContext'
 import Navbar from '../Components/Navbar'
+import { auth, db } from '../../Common/dbconfig'
+import { addDoc, collection } from 'firebase/firestore'
 
 
 
@@ -11,15 +13,23 @@ const UserSignUp = () => {
 
   const {signUp} = useUserAuth();
   const [email, setEmail] = useState()
-  const [username] = useState()
   const [password, setPassword] = useState()
+  const [username] = useState()
   const [showPassword, setShowPassword] = useState()
  
   const navigate = useNavigate();
   const handleSubmit = async (e)=>{
-  try{
     e.preventDefault();
-    await signUp(username, email,password);
+  try{
+    await signUp(username, email,password)
+      await addDoc(collection(db, 'ActiveUsers'), {
+        
+        email: email,
+        createdAt: new Date().toISOString(),
+        password:password
+
+        
+      });
     setTimeout(() => {
       navigate('/studentprofile')
      }, 1000);
