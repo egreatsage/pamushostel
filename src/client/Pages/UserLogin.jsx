@@ -12,25 +12,29 @@ const UserLogin = () => {
   const [showPassword, setShowPassword] = useState()
   const navigate = useNavigate();
   
-  const handleSubmit = async (e)=>{
-  try{
-    e.preventDefault();
-    await logIn(email,password);
-   
-    setTimeout(() => {
-      navigate('/studentprofile')
-     }, 1000);
-  }catch(err){
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: err.message,
-      timer:7000,
-      showConfirmButton: false,
-
-    })
-          }  
-      }  
+  
+      const handleSubmit = async (e) => {
+        try {
+          e.preventDefault();
+          await logIn(email, password);
+      
+          if (email === 'adminpamus@gmail.com') {
+            navigate('/dashboard');
+          } else {
+            navigate('/studentprofile');
+          }
+        } catch (err) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+            timer:7000,
+            showConfirmButton: false,
+      
+          })
+        }
+      };
+           
            
   return (
     <section>

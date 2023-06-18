@@ -83,9 +83,17 @@ const ContactUs = () => {
         </div>
       </form>
       <div className="md:flex gap-4 md:ml-9 ml-5">
-          
-          <p className='flex my-6 '> <span> <AiFillPhone className='text-orange-600 text-2xl mr-2'/> </span> Phone Number: <span>+254769375210</span></p>
-          <p className='flex my-6'> <span><HiOutlineMailOpen className='text-orange-600 text-2xl mr-2'/></span> Email: <span>+pamushostel@gmail.com</span></p>
+      <a
+            href="tel:+254769375210"
+          >
+              <p className='flex my-6 '> <span> <AiFillPhone className='text-orange-600 text-2xl mr-2'/> </span> Phone Number: <span>+254769375210</span></p>
+            </a>
+            <a
+            href="mailto: pamushostel@gmail.com"
+          >
+             <p className='flex my-6'> <span><HiOutlineMailOpen className='text-orange-600 text-2xl mr-2'/></span> Email: <span>+pamushostel@gmail.com</span></p>
+            </a>
+        
         </div>
           </div>
           <div className='w-40'>

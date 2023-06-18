@@ -11,7 +11,6 @@ import Navbar from '../Components/Navbar'
 import moment from 'moment';
 const StudentProfile = () => {
     const { user,} = useUserAuth();
-    const [bookings, setBookings] = useState([]);
     const [occupants, setOccupants] = useState([]);
     let userId = user.uid;
       useEffect(() => {
@@ -29,7 +28,7 @@ const StudentProfile = () => {
         const start = moment(checkInDate);
         const end = moment(checkOutDate);
         const duration = moment.duration(end.diff(start));
-        const days = duration.asDays();
+        const days = Math.floor(duration.asDays());
         return days;
       };
   return (
@@ -61,10 +60,6 @@ const StudentProfile = () => {
       <Link className='my-2 bold tracking-wide ml-3 hover:bg-gray-100 px-2 rounded-md py-1 text-black' to='/rules'> Rules/Regulations</Link>
       
       <Link className='my-2 bold tracking-wide ml-3 hover:bg-gray-100 px-2 rounded-md py-1 text-black' to='/notices'> Notices</Link>
-      
-      <Link className='my-2 bold tracking-wide ml-3 hover:bg-gray-100 px-2 rounded-md py-1 text-black' to='/booking'>Contact Landlord</Link>
-      
-      <Link className='my-2 bold tracking-wide ml-3 hover:bg-gray-100 px-2 rounded-md py-1 text-black' to='/booking'>Connect with hostelmates</Link>
       </MenuList>
     </Menu> 
            </div>
@@ -97,7 +92,7 @@ const StudentProfile = () => {
 
             <div className='md:flex gap-1 md:mr-6 mb-2 md:ml-0  ml-4'>
              <div className='md:font-semibold font-normal text-black md:text-gray-800 mr-2'> Check - in Date</div>
-              <div className='md:underline my-1 text-sm text-gray-700 '>{doc.checkindate}</div>
+              <div className='md:underline my-1 text-sm text-gray-700 '>{doc.allocateddate}</div>
             </div>
             <div className="divider mx-3 rounded-lg mb-3 md:hidden"></div>
 
@@ -129,7 +124,7 @@ const StudentProfile = () => {
 
             <div className='md:flex gap-1 md:mr-6 mb-2 md:ml-0  ml-4'>
              <div className='md:font-semibold font-normal text-black md:text-gray-800 mr-2'> Gender</div>
-              <div className='md:underline my-1 text-sm text-gray-700 '>{doc.gender}</div>
+              <div className='md:underline my-1 text-sm text-gray-700 '>{doc.selectedGender}</div>
             </div>
             <div className="divider mx-3 rounded-lg mb-3 md:hidden"></div>
 
@@ -161,7 +156,13 @@ const StudentProfile = () => {
          </div>
         </div>
        )})):(
-        <p className='text-black text-center p-16 '>pending ...</p>
+        <div className=" border border-gray-500 p-8 mt-32 md:mt-28">
+        <h1 className='text-center text-2xl pt-8'>Pending... </h1>
+        <h1 className='text-center text-2xl py-8'>Please wait for our response or book a room with us. thank you.</h1>
+       
+      <div className="flex justify-center gap-3 ">
+      </div>
+  </div>
        )}
        
         </div>

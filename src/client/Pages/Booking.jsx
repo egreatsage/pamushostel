@@ -4,19 +4,22 @@ import { useNavigate } from "react-router-dom";
 import dbdataservice from '../../Common/Operations'
 import Navbar from '../Components/Navbar'
 import { Input, Select ,Option} from "@material-tailwind/react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../Common/dbconfig";
 const Booking = ({id}) => {
   const {user} = useUserAuth();
   const [fullname, setfullname] = useState('');
   const [contact, setcontact] = useState('');
   const [institution, setinstitution] = useState('');
   const [checkindate, setcheckindate] = useState('');
+  const [schoolData,setSchoolData] = useState([]);
   const [pgcontact, setpgcontact] = useState('');
   const [pgname, setpgname] = useState('');
   const [selectedGender, setSelectedGender] = useState('');
-  const [emmail, setemmail] = useState('');
   const [message, setmessage] = useState({ error: false, msg: "" });
   const navigate = useNavigate();
   let userId = user ? user.uid : null; 
+  let emmail = user ? user.email : null; 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setmessage("");
@@ -41,7 +44,7 @@ const Booking = ({id}) => {
       setmessage({ error: true, msg: err.message });
     }
     setfullname(""); setcontact("");setpgcontact("");
-    setpgname(""); setinstitution('');   setemmail(''); setcheckindate('');
+    setpgname(""); setinstitution('');   setcheckindate('');
     setSelectedGender('');
   };
   const handleGenderChange = (e) => {
@@ -56,7 +59,6 @@ const Booking = ({id}) => {
       setpgcontact(docSnap.data().pgcontact);
       setpgname(docSnap.data().pgname);
       setinstitution(docSnap.data().institution);
-      setemmail(docSnap.data().emmail);
       setcheckindate(docSnap.data().checkindate);
     } 
     catch (err) {
@@ -69,6 +71,23 @@ const Booking = ({id}) => {
       editHandler();
     }   //eslint-disable-next-line
   }, [id]);
+
+  const fetchSchools = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'Universities'));
+      const data = querySnapshot.docs.map((doc) => ({
+        docId: doc.id,
+        ...doc.data(),
+      }));
+      setSchoolData(data);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSchools();
+  }, []);
   return (
     <div>
       <Navbar/>
@@ -83,14 +102,34 @@ const Booking = ({id}) => {
          <div className='my-3'><Input color='teal' type='tel' className='text-black' variant='standard' label='Phone Number'
        value={contact}
        onChange={(e)=>setcontact(e.target.value)} required/></div>
-      <div className='my-3'><Input color='teal' type='text' className='text-black' variant='standard' label='Your institution  '
-       value={institution}
-       onChange={(e)=>setinstitution(e.target.value)}
-       required/></div>
-      <div className='my-3'><Input color='teal' type='email' className='text-black' variant='standard' label='Your Email'
-       value={emmail}
-       onChange={(e)=>setemmail(e.target.value)}
-      required/></div>
+     
+        <div className='my-3'>
+        <select
+          className='text-blue-gray-400 w-full md:mt-[21px] border-b bg-none border-b-blue-gray-300 '
+             value={selectedGender}
+             onChange={(e) => setSelectedGender(e.target.value)}
+             >
+     <option className='pt-9' value="">Select Gender</option>
+     <option  value='male'>Male</option>
+     <option  value='Female'>Female</option>
+
+  </select>
+        </div>
+        <div className='my-3'>
+        <select
+          className='text-blue-gray-400 w-full md:mt-[21px] border-b bg-none border-b-blue-gray-300 '
+             value={institution}
+             onChange={(e) => setinstitution(e.target.value)}
+             >
+     <option className='pt-9' value="">Select School</option>
+   {schoolData.map((school)=>(
+    <option  key={school.docId} value={school.Uname}>{school.Uname}</option>
+   ))}
+  </select>
+        </div>
+
+
+     
       <div className='my-3'><Input color='teal' type='text' className='text-black' variant='standard' label='Guardian/Parent Name '
        value={pgname}
        onChange={(e)=>setpgname(e.target.value)}
@@ -104,27 +143,6 @@ const Booking = ({id}) => {
        value={checkindate}
        onChange={(e)=>setcheckindate(e.target.value)}
       /></div>
-        <div className='my-3 '>
-          <div className="text-gray-600"><label >Gender</label></div>
-          <div className=" flex gap-8">
-          <div className="flex">
-            <label className="mx-2">Male</label>
-            <input type="checkbox"
-            value="Male" 
-            checked={selectedGender === 'Male'}
-            onChange={handleGenderChange} 
-            color="teal" label="standard"/>
-          </div>
-          <div className="flex">
-            <label className="mx-2">Female</label>
-            <input type="checkbox"
-             value="Female" 
-             checked={selectedGender === 'Female'}
-             onChange={handleGenderChange} 
-              color="teal" label="standard"/>
-           </div>
-        </div>
-      </div>
     </div> 
       
         <div  className='flex justify-end '> <button type='submit' className='rounded-md bg-[gray] text-white font-semibold px-3 py-1'>Submit </button></div>

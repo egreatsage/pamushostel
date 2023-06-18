@@ -3,7 +3,6 @@ import { AiFillEyeInvisible, AiFillEye} from 'react-icons/ai'
 import { Link, useNavigate } from 'react-router-dom'
 import OAuth from '../../Common/OAuth'
 import { useUserAuth } from '../../Common/UserAuthContext'
-import Swal from 'sweetalert2'
 import Navbar from '../Components/Navbar'
 const SignIn = () => {
     const {logIn} = useUserAuth();
@@ -12,17 +11,20 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState()
  
   const navigate = useNavigate();
-  const handleSubmit = async (e)=>{
-  try{
+ const handleSubmit = async (e) => {
+  try {
     e.preventDefault();
-    await logIn(email,password);
-    setTimeout(() => {
-      navigate('/booking')
-     }, 1000);
-  }catch(err){
-     alert(err)
-          }  
-      }        
+    await logIn(email, password);
+
+    if (email === 'adminpamus@gmail.com') {
+      navigate('/dashboard');
+    } else {
+      navigate('/booking');
+    }
+  } catch (err) {
+    alert(err);
+  }
+};    
   return (
     <section>
       <Navbar/>

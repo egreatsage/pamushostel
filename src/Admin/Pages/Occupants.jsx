@@ -184,7 +184,7 @@ const Users = ({  getOccupantId }) => {
  }, []);
 
   return (
-  <div>
+  <div className='mb-4'>
       {loading ?(
          <Loader/>
         ):
@@ -201,7 +201,6 @@ const Users = ({  getOccupantId }) => {
               <AiOutlineClose className='cursor-pointer'/>
             </span>
             </label>
-         
             </div>
           </div>
         </div>
@@ -240,9 +239,9 @@ const Users = ({  getOccupantId }) => {
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
-         <Link className="flex items-center gap-2 " to='/adminprofile'>
+         <Link className="flex items-center gap-2 " to='/miscelleanous'>
           <span className="text-xl"><MdAdminPanelSettings/></span>
-            <button>Profile</button>
+            <button>Miscellenous</button>
           </Link>
          </div>
         </div>
@@ -413,11 +412,15 @@ const Users = ({  getOccupantId }) => {
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
               {student.selectedGender}
               </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              {student.contact}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-              {student.emmail}
+              <td class="whitespace-nowrap px-6 py-4 underline text-blue-700"> <a
+            href={`tel:${student.contact}`}
+          >
+            {student.contact  }</a></td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600 underline">
+              <a
+            href={`mailto:${student.emmail}?Subject=${student.fullname}`}
+          >
+            {student.emmail}</a>
               </td>
               <td class="text-sm hidden text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               {student.userId}
@@ -428,9 +431,10 @@ const Users = ({  getOccupantId }) => {
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               {student.pgname}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-              {student.pgcontact}
-              </td>
+              <td class="whitespace-nowrap px-6 py-4 underline text-blue-700"> <a
+            href={`tel:${student.pgcontact}`}
+          >
+            {student.pgcontact  }</a></td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               {student.checkindate}
               </td>
@@ -441,9 +445,13 @@ const Users = ({  getOccupantId }) => {
               {student.checkoutdate}
               </td>
              
-              <td  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              {getStatus(student.roomno)}
-              </td>
+              <td
+  className={`text-md px-6 py-4 ${
+    roomno ? 'text-green-600' : 'text-red-600'
+  }`}
+>
+  {getStatus(roomno)}
+</td>
               <td  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               {student.createdAt}
               </td>

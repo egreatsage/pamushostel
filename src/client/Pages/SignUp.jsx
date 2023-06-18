@@ -33,7 +33,7 @@ const SignUp = () => {
       });
     setTimeout(() => {
       navigate('/booking')
-     }, 3000);
+     }, 2000);
   }catch(err){
        return(
         alert(err)

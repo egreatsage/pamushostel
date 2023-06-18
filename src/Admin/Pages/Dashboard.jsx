@@ -137,9 +137,9 @@ const AllotmentCount = allotments.length
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
-         <Link className="flex items-center gap-2 " to='/adminprofile'>
+         <Link className="flex items-center gap-2 " to='/miscelleanous'>
           <span className="text-xl"><MdAdminPanelSettings/></span>
-            <button>Profile</button>
+            <button>Miscellenous</button>
           </Link>
          </div>
         </div>
@@ -247,7 +247,6 @@ const AllotmentCount = allotments.length
               </div>
               </div>
               ))}
-              
                </div>
                <div className="analytics-btn">
                 
@@ -261,12 +260,13 @@ const AllotmentCount = allotments.length
       <div className="overflow-hidden">
      <div className="bg-white w-full h-screen">
       <div className="bg-[#F1F5F9] w-full">
+  
       {messages.map((doc)=>{
              return(
               <Fragment>
-      <Accordion open={open === 1} className='border border-b border-t'>
-        <AccordionHeader className='bg-white flex justify-between' onClick={() => handleOpen(1)}>
-        <span className='mx-1'>{doc.name}</span>
+      <Accordion open={open === 1} className=' border-b border-t border-gray-200 '>
+        <AccordionHeader className='bg-white flex text-md font-normal text-black justify-between' onClick={() => handleOpen(1)}>
+        <span className='mx-1 text-gray-700 text-md'>{doc.name}</span>
         <span className='mx-1 text-sm italic'>{doc.createdAt}</span>
         
         </AccordionHeader>

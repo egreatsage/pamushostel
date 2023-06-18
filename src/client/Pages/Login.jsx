@@ -31,13 +31,8 @@ const Login= () => {
     })
           }  
       }  
-      const isAdmin = user.email ==="admin@gmail.com"
-      if (isAdmin) {
-        setTimeout(() => {
-          return <Navigate to="/dashboard" />;
-        }, 2000);
-       
-      }     
+    
+    
   return (
     <section>
               <div className='fixed top-2 z-10 w-full m'>

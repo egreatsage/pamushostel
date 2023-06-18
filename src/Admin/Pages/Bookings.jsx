@@ -9,8 +9,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { db } from '../../Common/dbconfig';
-import { Input, Option, Select } from '@material-tailwind/react';
-import { useUserAuth } from '../../Common/UserAuthContext';
+import { Input} from '@material-tailwind/react';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import { MdAdminPanelSettings, MdBedroomParent, MdSpaceDashboard } from 'react-icons/md';
@@ -20,9 +19,7 @@ import { TbBrandBooking } from 'react-icons/tb';
 import { FaUsers } from 'react-icons/fa';
 import Profile from '../../Common/Profile';
 const Bookings = () => {
-  const {user} = useUserAuth();
   const [fullname, setfullname] = useState('');
-  const [gender, setgender] = useState('');
   const [contact, setcontact] = useState('');
   const [institution, setinstitution] = useState('');
   const [pgname, setpgname] = useState('');
@@ -31,11 +28,12 @@ const Bookings = () => {
   const [userId, setuserid] = useState('');
   const [emmail, setemmail] = useState('');
   const [checkindate, setcheckindate] = useState('');
+  const [statusToggle, setStatusToggle] = useState(false);
   const [studentData,setStudentData] = useState([]);
   const [roomData,setRoomData] = useState([]);
   const [schoolData,setSchoolData] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
-  const [loading, setloading] = useState(false);
+  const [loading, setloading] = useState(true);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -84,6 +82,7 @@ const Bookings = () => {
           userId,
           createdAt: new Date().toISOString(),
         });
+      
        Swal.fire({
           icon:'success',
           title:'added successfully',
@@ -141,6 +140,7 @@ const Bookings = () => {
         ...doc.data(),
       }));
       setStudentData(data);
+      setloading(false);
     } catch (error) {
       alert(error);
     }
@@ -186,6 +186,10 @@ const Bookings = () => {
     fetchSchools();
   }, []);
 
+  
+  const toggleStatus = () => {
+    setStatusToggle((prevStatusToggle) => !prevStatusToggle);
+  };
   return (
   <div>
    
@@ -248,9 +252,9 @@ const Bookings = () => {
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
-         <Link className="flex items-center gap-2 " to='/adminprofile'>
+         <Link className="flex items-center gap-2 " to='/miscelleanous'>
           <span className="text-xl"><MdAdminPanelSettings/></span>
-            <button>Profile</button>
+            <button>Miscellenous</button>
           </Link>
          </div>
         </div>
@@ -327,7 +331,7 @@ const Bookings = () => {
             <div className='border my-6'></div>
         <div>
       <h1 className="text-md font-semibold mx-2 my-4 ">List Of Bookings</h1>
-          <div class="flex flex-col overflow-x-auto">
+          <div class="flex flex-col overflow-x-auto mb-10">
   <div class="sm:-mx-6 lg:-mx-8">
     <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
       <div class="overflow-x-auto">
@@ -347,7 +351,7 @@ const Bookings = () => {
               <th  class="px-6 py-4 hidden">UserId</th>
               <th  class="px-6 py-4">Status</th>
               <th  class="px-6 py-4">Approve</th>
-              <th  class="px-6 py-4">Edit</th>
+          
               <th  class="px-6 py-4">Delete</th>
             </tr>
           </thead>
@@ -357,20 +361,29 @@ const Bookings = () => {
               <td class="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
               <td class="whitespace-nowrap px-6 py-4">{student.fullname}</td>
               <td class="whitespace-nowrap px-6 py-4">{student.selectedGender}</td>
-              <td class="whitespace-nowrap px-6 py-4">{student.contact}</td>
-              <td class="whitespace-nowrap px-6 py-4">{student.emmail}</td>
+              <td class="whitespace-nowrap px-6 py-4 underline text-blue-700"> <a
+            href={`tel:${student.contact}`}
+          >
+            {student.contact  }</a></td>
+              <td class="whitespace-nowrap px-6 py-4 underline text-blue-700"> <a
+            href={`mailto:${student.emmail}?Subject=${student.fullname}`}
+          >
+            {student.emmail}</a></td>
               <td class="whitespace-nowrap px-6 py-4">{student.institution}</td>
               <td class="whitespace-nowrap px-6 py-4">{student.pgname}</td>
-              <td class="whitespace-nowrap px-6 py-4">{student.pgcontact}</td>
+              <td class="whitespace-nowrap px-6 py-4 underline text-blue-700"> <a
+            href={`tel:${student.pgcontact}`}
+          >
+            {student.contact  }</a></td>
               <td class="whitespace-nowrap px-6 py-4">{student.checkindate}</td>
               <td class="whitespace-nowrap px-6 py-4">{student.createdAt}</td>
               <td class="whitespace-nowrap px-6 py-4 hidden">{student.userId}</td>
-              <td class={`whitespace-nowrap px-6 py-4 ${student.roomno ? ' text-green-800 font-extrabold text-md' : ' text-md text-red-900 font-extrabold'}`}>
-        {getStatus(student.roomno)}
-      </td>
+              <td class="whitespace-nowrap px-6 py-4 text-md font-bold">
+  <button onClick={() => toggleStatus()}>{statusToggle ? 'Approved' : 'Pending'}</button>
+</td>
       <td class="whitespace-nowrap px-6 py-4"> <input className='cursor-pointer ' type='checkbox' onClick={() => handleEdit(student) }/></td>
-              <td class="whitespace-nowrap px-6 py-4"> <button onClick={() => handleEdit(student) }>Edit</button></td>
-              <td class="whitespace-nowrap px-6 py-4"><button onClick={() => handleDelete(student.docId)}>
+             
+              <td class="whitespace-nowrap px-6 py-4 text-red-600"><button onClick={() => handleDelete(student.docId)}>
                       Delete
                     </button></td>
             </tr>

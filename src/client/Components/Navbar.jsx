@@ -33,7 +33,12 @@ const Navbar = () => {
               <Link to={'/'} className="text-gray-900 hover:bg-gray-200  hover:font-bold px-3 py-2 rounded-md text-sm font-bold">Home</Link>
               {/* <Link to={'/'} className="text-gray-900 hover:bg-gray-200  hover:font-bold px-3 py-2 rounded-md text-sm font-bold">About</Link> */}
               <Link to={'/studentprofile'} className="text-gray-900 hover:bg-gray-200  hover:font-bold px-3 py-2 rounded-md text-sm font-bold">Student</Link>
-              <Link to={'/signin'} className="text-[orange] hover:bg-gray-200 opacity-100  hover:font-bold px-3 py-2 rounded-full hover:border text-sm font-bold">Book Now</Link>
+              {user ? (
+      <Link to={'/booking'} className="text-[orange] hover:bg-gray-200 opacity-100  hover:font-bold px-3 py-2 rounded-full hover:border text-sm font-bold">Book Now</Link>
+      ) : (
+        <Link to={'/signin'} className="text-[orange] hover:bg-gray-200 opacity-100  hover:font-bold px-3 py-2 rounded-full hover:border text-sm font-bold">Book Now</Link>
+      )}
+             
               {user ? (
         <button className='hover:border hover:shadow-lg border-red-300 text-[red] px-3 py-1 rounded-lg' onClick={handlelogout}>Logout</button>
       ) : (

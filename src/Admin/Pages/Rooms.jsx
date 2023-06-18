@@ -102,13 +102,11 @@ const Rooms = () => {
     fetchData();
   }, []);
 
-  const getStatus = (roomno) => {
-    return roomno ? 'Allocated' : 'Pending';
-  };
+  
 
   const fetchOccupants = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, 'Alloted'));
+      const querySnapshot = await getDocs(collection(db, 'Occupants'));
       const data = querySnapshot.docs.map((doc) => ({
         docId: doc.id,
         ...doc.data(),
@@ -122,6 +120,13 @@ const Rooms = () => {
   useEffect(() => {
     fetchOccupants();
   }, []);
+  const getStatus = (allocatedDate, checkoutDate) => {
+    const differenceInDays = Math.floor((new Date(checkoutDate) - new Date(allocatedDate)) / (1000 * 60 * 60 * 24));
+    if (differenceInDays > 5) {
+      return 'Active';
+    }
+    return 'Inactive';
+  };
   return (
   <div>
    
@@ -182,9 +187,9 @@ const Rooms = () => {
           </Link>
          </div>
          <div className='my-8 m-8  hover:font-semibold'>
-         <Link className="flex items-center gap-2 " to='/adminprofile'>
+         <Link className="flex items-center gap-2 " to='/miscelleanous'>
           <span className="text-xl"><MdAdminPanelSettings/></span>
-            <button>Profile</button>
+            <button>Miscellenous</button>
           </Link>
          </div>
         </div>
@@ -216,11 +221,6 @@ const Rooms = () => {
          value={roomno}
          onChange={(e)=>setRoomNo(e.target.value)}
         color='teal' type='text' className='text-black' variant='standard' label='Room Number' /></div>
-       
-         <div className='my-3'><Input color='teal' type='text' className='text-black' variant='standard' label='Gender'
-       value={gender}
-       onChange={(e)=>setGender(e.target.value)} /></div>
-      
         </div> 
         <div  className='flex justify-end mr-8'> <button type='submit' className='rounded-md bg-[#8DA2FB] text-white font-bold px-4 py-2'>Submit </button></div>
       </form>
@@ -239,8 +239,6 @@ const Rooms = () => {
                      <tr>
                        <th  class="px-6 py-4">#</th>
                        <th  class="px-6 py-4">Room No</th>
-                       <th  class="px-6 py-4">Gender</th>
-                       {/* <th  class="px-6 py-4">Status</th> */}
                        <th  class="px-6 py-4 hidden">createdAt</th>
                        <th  class="px-6 py-4">Action</th>
                      </tr>
@@ -250,11 +248,8 @@ const Rooms = () => {
                      <tr key={room.docId} class="border-b dark:border-neutral-500">
                        <td class="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
                        <td class="whitespace-nowrap px-6 py-4">{room.roomno}</td>
-                       <td class="whitespace-nowrap px-6 py-4">{room.gender}</td>
-                       {/* <td class={`whitespace-nowrap px-6 py-4 ${room.roomno ? ' text-green-800 font-extrabold text-md' : ' text-md text-red-900 font-extrabold'}`}>
-                        {getStatus(room.roomno)}
-                       </td> */}
                        <td class="whitespace-nowrap px-6 py-4 hidden">{room.createdAt}</td>
+                   
                        <td class="px-1 mx-1 "> <button className='px-1 mx-1 text-green-700 font-bold' onClick={() => handleEdit(room) }>Edit</button></td>
                        <td class="px-1 mx-1 "><button className='px-1 mx-1 text-red-700 font-bold' onClick={() => handleDelete(room.docId)}>
                                Delete
@@ -284,6 +279,9 @@ const Rooms = () => {
                        <th  class="px-6 py-4">#</th>
                        <th  class="px-6 py-4">Name</th>
                        <th  class="px-6 py-4">Room</th>
+                       <th  class="px-6 py-4 hidden">ADate</th>
+                       <th  class="px-6 py-4 hidden">CDate</th>
+                       <th  class="px-6 py-4">Status</th>
                        <th  class="px-6 py-4 ">Contact</th>
                      </tr>
                    </thead>
@@ -293,6 +291,11 @@ const Rooms = () => {
                        <td class="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
                        <td class="whitespace-nowrap px-6 py-4">{allotment.fullname}</td>
                        <td class="whitespace-nowrap px-6 py-4">{allotment.roomno}</td>
+                       <td class="whitespace-nowrap px-6 py-4 hidden">{allotment.allocateddate}</td>
+                       <td class="whitespace-nowrap px-6 py-4 hidden">{allotment.checkoutdate}</td>
+                       <td className={`whitespace-nowrap px-6 py-4 ${getStatus(allotment.allocateddate, allotment.checkoutdate) === 'Active' ? 'text-green-500' : 'text-red-500'}`}>
+                            {getStatus(allotment.allocateddate, allotment.checkoutdate)}
+                          </td>
                        <td class="whitespace-nowrap px-6 py-4">{allotment.contact}</td>
                      </tr>
                       ))}
