@@ -49,6 +49,7 @@ const Profile = () => {
         <h1 className='text-center font-bold my-3 mb-4 text-black'>Account Details</h1>
         <MenuItem className='my-2 bold tracking-wide ml-3 hover:bg-gray-100 px-2 rounded-md py-1 text-black'>{user && user.displayName}</MenuItem>
         <MenuItem className='my-2 bold tracking-wide ml-3 hover:bg-gray-100 px-2 rounded-md py-1 text-black'>{user && user.email}</MenuItem>
+        <MenuItem className='my-2 bold tracking-wide ml-3 hover:bg-gray-100 px-2 rounded-md py-1 text-black'>{user && user.uid}</MenuItem>
         <MenuItem  className='my-2 mb-4 bold tracking-wide ml-3 hover:bg-gray-100 px-2 rounded-md py-2 text-black'><button  onClick={handleOpen}>Update Photo</button></MenuItem>
         <MenuItem  className='my-2 mb-4 bold tracking-wide ml-3 hover:bg-gray-100 px-2 rounded-md py-1 text-black'> {user && user.email === "adminpamus@gmail.com" && (
               <div>

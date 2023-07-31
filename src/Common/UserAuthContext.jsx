@@ -15,8 +15,7 @@ export function UserAuthContextProvider({ children }) {
             .then(() => {
                 localStorage.setItem("user", JSON.stringify(auth.currentUser));
             })
-    }
-    
+        }
     const signUp = async (username, email, password) => {
         await createUserWithEmailAndPassword(auth, email, password)
             .then(() => {

@@ -6,14 +6,17 @@ import './index.css'
 import { ThemeProvider } from '@material-tailwind/react'
 import { UserAuthContextProvider } from './Common/UserAuthContext.jsx'
 import { BrowserRouter } from 'react-router-dom'
+import { ChakraProvider } from '@chakra-ui/react'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
     <ThemeProvider>
+    <ChakraProvider>
         <UserAuthContextProvider>
           <App />
         </UserAuthContextProvider>
+    </ChakraProvider>
     </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,

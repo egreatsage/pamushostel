@@ -9,9 +9,13 @@ import { Link} from 'react-router-dom'
 import Profile from '../../Common/Profile'
 import Navbar from '../Components/Navbar'
 import moment from 'moment';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../../Common/dbconfig';
+import UserInfo from './UserInfo';
 const StudentProfile = () => {
     const { user,} = useUserAuth();
     const [occupants, setOccupants] = useState([]);
+    const [userInfo, setUserInfo] = useState(null);
     let userId = user.uid;
       useEffect(() => {
         getAllOccupants();
@@ -31,6 +35,34 @@ const StudentProfile = () => {
         const days = Math.floor(duration.asDays());
         return days;
       };
+
+   
+     
+    
+      useEffect(() => {
+        if (user) {
+          fetchUserInfo();
+        }
+      }, [user]);
+    
+      const fetchUserInfo = async () => {
+        try {
+          const q = query(collection(db, 'ActiveUsers'), where('userId', '==', user.uid));
+          const querySnapshot = await getDocs(q);
+          if (querySnapshot.size === 1) {
+            // Assuming there's only one document matching the UID
+            const doc = querySnapshot.docs[0];
+            setUserInfo(doc.data());
+          } else {
+            // Handle error or show appropriate message if the user data is not found
+            setUserInfo(null);
+          }
+        } catch (error) {
+          console.error('Error fetching user info:', error);
+          // Handle error or show appropriate message
+          setUserInfo(null);
+        }
+      };
   return (
    <div>
     <div>
@@ -44,9 +76,8 @@ const StudentProfile = () => {
            </div>
 
            <div className='flex gap-4'>
-          
+
            <Profile/>
-           
             <Menu>
       <MenuHandler>
           <button>
@@ -65,112 +96,46 @@ const StudentProfile = () => {
            </div>
         </div>
         <div>
-            <div className="flex justify-end mr-5 mt-3 my-4">
-                <Tooltip content='Print Document' placement='bottom'>
-                   <button className='bg-none border-none'>
-                   <FaFileDownload className='cursor-pointer text-[green]' onClick={handlePrint}/>
-                </button>
-                </Tooltip>
-    
+             
+            <div>
+              <UserInfo/>
             </div>
         <div ref={componentRef} className="">
-        <h1 className='text-center bold md:text-2xl tracking-wide text-md'>Hosteller Information</h1>
-
+        <h1 className='text-xl ml-2 font-semibold text-gray-700 rounded-sm '>Room Information</h1>
         {occupants.length > 0 ?( occupants?.filter((room) => room.userId === userId).map((doc, index) => {
         return(
-        <div className='shadow-md md:mx-8 border border-shadow-[black] h-full my-12  rounded-md'>
-         <div className='md:flex my-5 mx-1 items-center sm:flex md:border md:shadow-sm  '>
-        <div  className='md:w-[250px] w-full flex items-center md:border-r-gray-400 md:border-r text-xl md:p-3 p-2  font-semibold '>
-        <h1>Room Information</h1>
+        <div className='bg-gray-50 py-9 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'>
+          <div className='flex gap-2 ml-3'>
+            <h1>Room Number:</h1>
+            <h1 className='ml-1 text-gray-800 font-semibold'>{doc.roomno}</h1>
+          </div>
+          <div className="divider mx-3 rounded-lg mb-3 my-3 md:hidden lg:hidden xl:hidden sm:hidden"></div>
+          <div className='flex gap-2 ml-3'>
+            <h1>Check - in Date:</h1>
+            <h1 className='ml-1 text-gray-800 font-semibold'>{doc.allocateddate}</h1>
+          </div>
+          <div className="divider mx-3 rounded-lg mb-3 my-3 md:hidden lg:hidden xl:hidden sm:hidden"></div>
+          <div className='flex gap-2 ml-3'>
+            <h1>Check - out Date:</h1>
+            <h1 className='ml-1 text-gray-800 font-semibold'>{doc.checkoutdate}</h1>
+          </div>
+          <div className="divider mx-3 rounded-lg mb-3 my-3 md:hidden lg:hidden xl:hidden sm:hidden"></div>
+          <div className='flex gap-2 ml-3'>
+            <h1>Phone Number:</h1>
+            <h1 className='ml-1 text-gray-800 font-semibold'>{userInfo.phonenumber}</h1>
+          </div>
+          <div className="divider mx-3 rounded-lg mb-3 my-3 md:hidden lg:hidden xl:hidden sm:hidden"></div>
+          <div className='flex gap-2 ml-3'>
+            <h1>Period:</h1>
+            <h1 className='ml-1 text-gray-800 font-semibold'>{calculateDateDifference(doc.allocateddate, doc.checkoutdate)} days remaining</h1>
+          </div>
+          <div className="divider mx-3 rounded-lg mb-3 my-3 md:hidden lg:hidden xl:hidden sm:hidden"></div>
         </div>
-         <div className=" md:p-12 py-4 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">   
-            <div className='md:flex gap-1 md:mr-6 mb-2 md:ml-0  ml-4'>
-             <div className='md:font-semibold font-normal text-black md:text-gray-800 mr-2'> Room Number</div>
-              <div className='md:underline my-1 text-sm text-gray-700 '>{doc.roomno}</div>
-            </div>
-            <div className="divider mx-3 rounded-lg mb-3 md:hidden"></div>
-
-            <div className='md:flex gap-1 md:mr-6 mb-2 md:ml-0  ml-4'>
-             <div className='md:font-semibold font-normal text-black md:text-gray-800 mr-2'> Check - in Date</div>
-              <div className='md:underline my-1 text-sm text-gray-700 '>{doc.allocateddate}</div>
-            </div>
-            <div className="divider mx-3 rounded-lg mb-3 md:hidden"></div>
-
-            <div className='md:flex gap-1 md:mr-6 mb-2 md:ml-0  ml-4'>
-             <div className='md:font-semibold font-normal text-black md:text-gray-800 mr-2'> Check - out Date</div>
-              <div className='md:underline my-1 text-sm text-gray-700 '>{doc.checkoutdate}</div>
-            </div>
-            <div className="divider mx-3 rounded-lg mb-3 md:hidden"></div>
-
-            <div className='md:flex gap-1 md:mr-6 mb-2 md:ml-0  ml-4'>
-             <div className='md:font-semibold font-normal text-black md:text-gray-800 mr-2'> Period</div>
-              <div className='md:underline my-1 text-sm  text-gray-700 '> {calculateDateDifference(doc.allocateddate, doc.checkoutdate)} days remaining</div>
-            </div>
-            <div className="divider mx-3 rounded-lg mb-3 md:hidden"></div>
-        
-           </div>
-
-         </div>
-         <div className='md:flex my-5 mx-1 items-center sm:flex md:border md:shadow-sm  '>
-        <div  className='md:w-[250px] w-full flex items-center md:border-r-gray-400 md:border-r text-xl md:p-3 p-2  font-semibold '>
-        <h1>Personal Information</h1>
-        </div>
-         <div className=" md:p-12 py-4 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">   
-            <div className='md:flex gap-1 md:mr-6 mb-2 md:ml-0  ml-4'>
-             <div className='md:font-semibold font-normal text-black md:text-gray-800 mr-2'> Name</div>
-              <div className='md:underline my-1 text-sm text-gray-700 '>{doc.fullname}</div>
-            </div>
-            <div className="divider mx-3 rounded-lg mb-3 md:hidden"></div>
-
-            <div className='md:flex gap-1 md:mr-6 mb-2 md:ml-0  ml-4'>
-             <div className='md:font-semibold font-normal text-black md:text-gray-800 mr-2'> Gender</div>
-              <div className='md:underline my-1 text-sm text-gray-700 '>{doc.selectedGender}</div>
-            </div>
-            <div className="divider mx-3 rounded-lg mb-3 md:hidden"></div>
-
-            <div className='md:flex gap-1 md:mr-6 mb-2 md:ml-0  ml-4'>
-             <div className='md:font-semibold font-normal text-black md:text-gray-800 mr-2'> Contact</div>
-              <div className='md:underline my-1 text-sm text-gray-700 '>{doc.contact}</div>
-            </div>
-            <div className="divider mx-3 rounded-lg mb-3 md:hidden"></div>
-
-            <div className='md:flex gap-1 md:mr-6 mb-2 md:ml-0  ml-4'>
-             <div className='md:font-semibold font-normal text-black md:text-gray-800 mr-2'> School</div>
-              <div className='md:underline my-1 text-sm  text-gray-700 '>{doc.institution}</div>
-            </div>
-            <div className="divider mx-3 rounded-lg mb-3 md:hidden"></div>
-
-            <div className='md:flex gap-1 md:mr-6 mb-2 md:ml-0  ml-4'>
-             <div className='md:font-semibold font-normal text-black md:text-gray-800 mr-2'> Parent/Guardian Name</div>
-              <div className='md:underline my-1 text-sm  text-gray-700 '>{doc.pgname}</div>
-            </div>
-            <div className="divider mx-3 rounded-lg mb-3 md:hidden"></div>
-
-            <div className='md:flex gap-1 md:mr-6 mb-2 md:ml-0  ml-4'>
-             <div className='md:font-semibold font-normal text-black md:text-gray-800 mr-2'> Parent/Guardian Contact</div>
-              <div className='md:underline my-1 text-sm  text-gray-700 '>{doc.pgcontact}</div>
-            </div>
-            <div className="divider mx-3 rounded-lg mb-3 md:hidden"></div>
-        
-           </div>
-         </div>
-        </div>
-       )})):(
-        <div className=" border border-gray-500 p-8 mt-32 md:mt-28">
-        <h1 className='text-center text-2xl pt-8'>Pending... </h1>
-        <h1 className='text-center text-2xl py-8'>Please wait for our response or book a room with us. thank you.</h1>
-       
-      <div className="flex justify-center gap-3 ">
-      </div>
-  </div>
-       )}
-       
-        </div>
-        <div>
-
+        )})):(
+        <p>loading</p>
+        )}
         </div>
         </div>
-      
     </div>
    </div>
   )

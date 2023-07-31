@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react'
 import { AiFillEyeInvisible, AiFillEye} from 'react-icons/ai'
 import { Link, useNavigate } from 'react-router-dom'
@@ -5,117 +6,153 @@ import OAuth from '../../Common/OAuth'
 import { useUserAuth } from '../../Common/UserAuthContext'
 import Navbar from '../Components/Navbar'
 import { addDoc, collection } from 'firebase/firestore'
-import { db } from '../../Common/dbconfig'
-
-
+import { auth, db } from '../../Common/dbconfig'
+import { useToast } from '@chakra-ui/react'
 
 const SignUp = () => {
-
   const {signUp} = useUserAuth();
-  const [email, setEmail] = useState()
-  const [username] = useState()
-  const [password, setPassword] = useState()
-  const [showPassword, setShowPassword] = useState()
- 
   const navigate = useNavigate();
-  const handleSubmit = async (e)=>{
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [firstname, setFirstname] = useState('')
+  const [lastname, setLastname] = useState('')
+  const [gender, setGender] = useState('')
+  const [phonenumber, setPhonenumber] = useState('')
+  const [school, setSchool] = useState('')
+  const [staytime, setStaytime] = useState('')
+  const [username] = useState()
+  const toast = useToast();
+  const handleSubmit = async e=> {
     e.preventDefault();
-  try{
-   
-      await signUp(username, email,password)
-      await addDoc(collection(db, 'ActiveUsers'), {
-        
-        email: email,
-        createdAt: new Date().toISOString(),
-        password:password
+    try {
+     
+        await signUp(username, email, password);
+        const user = auth.currentUser;
+        const userId = user.uid;
+    
+        await addDoc(collection(db, 'RegisteredUsers'), {
+          userId: userId, 
+          email: email,
+          createdAt: new Date().toISOString(),
+          password: password,
+          firstname: firstname,
+          lastname: lastname,
+          gender: gender,
+          phonenumber: phonenumber,
+          school: school,
+          staytime: staytime,
+          admin:'false',
+        });
+         toast({
+          description: 'Account created successfully',
+          status:'success',
+          duration: 9000,
+          position:'top'
+         })
+      setTimeout(() => {
+        navigate('/booking')
+       }, 2000);
+    } catch (err) {
+      return alert(err);
+    }
+  };
 
-        
-      });
-    setTimeout(() => {
-      navigate('/booking')
-     }, 2000);
-  }catch(err){
-       return(
-        alert(err)
-       )
-          }  
-      }    
   return (
-    <section>
+    <div>
+      <div>
       <Navbar/>
-    <h1 className="text-3xl text-center mt-20 font-bold">Sign Up</h1>
-    <div className="flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto">
-      <div className="md:w-[67%] lg:w-[50%] mb-12 md:mb-6">
-        <img
-          src="https://images.pexels.com/photos/4907442/pexels-photo-4907442.jpeg?auto=compress&cs=tinysrgb&w=600"
-          alt="key"
-          className="w-full rounded-2xl"
-        />
       </div>
-      <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20">
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            id="email"
-          name='email'
-            onChange={e=>setEmail(e.target.value)}
-            placeholder="Email address"
-            className="mb-6 w-full px-4 border py-2 text-md text-gray-700 bg-white border-gray-300 rounded-full transition ease-in-out"
+    
+      <div >
+      <div className='flex items-center justify-center h-auto md:h-screen md:mt-0 mt-56'>
+        <form className='mb-5' onSubmit={handleSubmit} >
+        <h1 className='text-center flex text-2xl font-semibold my-7'>Create an account</h1>
+          <div className='grid md:grid-cols-3 md:gap-4'>
+          <div className='flex flex-col '>
+        <label className='text-gray-700' >Email</label>
+          <input className='w-80 my-4 rounded-[10px] py-2 px-3 outline-none border border-gray-400'
+          placeholder='Enter email'
+          type='email'
+           onChange={e=> setEmail(e.target.value)}
           />
-          <div className="relative mb-6">
-            <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              name='password'
-              onChange={e=>setPassword(e.target.value)}
-              placeholder="Password"
-              className="w-full px-4 py-2 border text-md text-gray-700 bg-white border-gray-300 rounded-full transition ease-in-out"
-            />
-            {showPassword ? (
-              <AiFillEyeInvisible
-                className="absolute right-3 top-3 text-xl cursor-pointer"
-                onClick={() => setShowPassword((prevState) => !prevState)}
-              />
-            ) : (
-              <AiFillEye
-                className="absolute right-3 top-3 text-xl cursor-pointer"
-                onClick={() => setShowPassword((prevState) => !prevState)}
-              />
-            )}
+        </div>
+        <div className='flex flex-col gap-2'>
+        <label className='text-gray-700 ' >Password</label>
+          <input className='w-80 my-4 rounded-[10px] py-2 px-3 outline-none border border-gray-400'
+          placeholder='Enter Password'
+          type='password'
+          
+           onChange={e=> setPassword(e.target.value)}
+          />
+        </div>
+        <div className='flex flex-col gap-2'>
+        <label className='text-gray-700 ' >First Name</label>
+          <input className='w-80 my-4 rounded-[10px] py-2 px-3 outline-none border border-gray-400'
+          placeholder='Enter firstname'
+          type='text'
+        
+           onChange={e=> setFirstname(e.target.value)}
+          />
+        </div>
+        <div className='flex flex-col gap-2'>
+        <label className='text-gray-700 ' >Last Name</label>
+          <input className='w-80 my-4 rounded-[10px] py-2 px-3 outline-none border border-gray-400'
+          placeholder='Enter lastname'
+          type='text'
+          
+           onChange={e=> setLastname(e.target.value)}
+          />
+        </div>
+        <div className='flex flex-col gap-2'>
+        <label className='text-gray-700 ' >Gender</label>
+        <select
+      className='w-80 my-4 rounded-[10px] py-2 px-3 outline-none border border-gray-400'
+            
+             onChange={e=> setGender(e.target.value)}
+             >
+     <option className='pt-9'  value="">Select Gender</option>
+     <option  value='male'>Male</option>
+     <option  value='Female'>Female</option>
+
+  </select>
+        </div>
+        <div className='flex flex-col gap-2'>
+        <label className='text-gray-700 ' >Phone Number</label>
+          <input className='w-80 my-4 rounded-[10px] py-2 px-3 outline-none border border-gray-400'
+          placeholder='Enter Phonenumber'
+          type='tel'
+        
+           onChange={e=> setPhonenumber(e.target.value)}
+          />
+        </div>
+        <div className='flex flex-col gap-2'>
+        <label className='text-gray-700 ' >School</label>
+          <input className='w-80 my-4 rounded-[10px] py-2 px-3 outline-none border border-gray-400'
+          placeholder='Enter school'
+          type='text'
+       
+           onChange={e=> setSchool(e.target.value)}
+          />
+        </div>
+        <div className='flex flex-col gap-2'>
+        <label className='text-gray-700 ' >Expected staytime in months </label>
+          <input className='w-80 my-4 rounded-[10px] py-2 px-3 outline-none border border-gray-400'
+          placeholder='e.g 5 months'
+          type='text'
+         
+           onChange={e=> setStaytime(e.target.value)}
+          />
+        </div>
           </div>
-          <div className="flex justify-between whitespace-nowrap text-sm sm:text-md">
-            <p className="mb-6">
-              Have a account?
-              <Link
-                to="/sigin"
-                className="text-red-600 hover:text-red-700 transition duration-200 ease-in-out ml-1"
-              >
-                Sign in
-              </Link>
-            </p>
-            <p>
-              <Link
-                to="/forgot-password"
-                className="text-blue-600 hover:text-blue-800 transition duration-200 ease-in-out"
-              >
-                Forgot password?
-              </Link>
-            </p>
-          </div>
-          <button
-            className="w-full bg-orange-600 text-white px-7 py-3 text-sm font-medium uppercase rounded-full shadow-md transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800"
-            type="submit"
-          >
-            Sign up
-          </button>
-          <div className="flex items-center  my-4 before:border-t before:flex-1 before:border-gray-300 after:border-t after:flex-1 after:border-gray-300">
-            <p className="text-center font-semibold mx-4">OR</p>
-          </div>
-          <OAuth />
+          <div className='flex justify-end mt-6'>
+         
+           <button type='submit' className='bg-blue-gray-900 text-white rounded-[10px]  py-[6px] hover:shadow-2xl px-6'>Submit</button></div>
+         
+      
         </form>
       </div>
+      </div>
     </div>
-  </section>
   )
 }
 
