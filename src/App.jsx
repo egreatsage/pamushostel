@@ -30,6 +30,8 @@ import Allotment from './Admin/Pages/Allotment'
 import Users from './Admin/Pages/Users'
 import Miscelleanous from './Admin/Pages/Miscelleanous'
 import UserInfo from './client/Pages/UserInfo'
+import TheDashboard from './client/Pages/TheDashboard'
+import UpdateRegisteredUsers from './client/Pages/UpdateRegisteredUsers'
 function App() {
   const [bookingId, setBookingId] = useState('');
   const [occupantId, setOccupantId] = useState('');
@@ -64,6 +66,7 @@ function App() {
           <Route path='/forgot-password' element={<ForgotPassword/>}/>
           <Route path='/notices' element={<SNotices/>}/>
           <Route path='/reply' element={<Reply/>}/>
+          <Route path='/thedashboard' element={<TheDashboard/>}/>
           <Route path='/messagestudent' element={<MessageStudent/>}/>
           <Route path='/messageadmin' element={<MessageAdmin/>}/>
           <Route path='/rules' element={<Rules/>}/>
@@ -73,14 +76,9 @@ function App() {
           <Route path='/userinfo' element={<UserInfo/>}/>
           <Route path='/paymentstuff' element={<PaymentStuff/>}/>
           <Route path='/miscelleanous' element={<Miscelleanous/>}/>
-          <Route path='/bookings' element={ <Bookings getBookingId={getBookingIdHandler}/>}/>
-         
-        
-       
-        </Routes>
-     
-
-        
+          <Route path='/updateregisteredUsers/:userId' element={<UpdateRegisteredUsers/>}/>
+          <Route path='/bookings' element={ <Bookings getBookingId={getBookingIdHandler}/>}/> 
+        </Routes>   
   </div>
   
   )

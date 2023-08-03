@@ -82,7 +82,6 @@ const Bookings = () => {
           userId,
           createdAt: new Date().toISOString(),
         });
-      
        Swal.fire({
           icon:'success',
           title:'added successfully',

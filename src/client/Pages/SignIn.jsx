@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useUserAuth } from '../../Common/UserAuthContext'
 import Navbar from '../Components/Navbar'
 import { auth } from '../../Common/dbconfig'
+import { useToast } from '@chakra-ui/react'
 const SignIn = () => {
   const { logIn } = useUserAuth();
   const [email, setEmail] = useState();
@@ -11,7 +12,7 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState();
 
   const navigate = useNavigate();
-
+  const toast = useToast();
   // Function to check the admin status
   const checkAdminStatus = async (userId) => {
     try {
@@ -37,6 +38,14 @@ const SignIn = () => {
       const user = auth.currentUser;
       const userId = user.uid;
       checkAdminStatus(userId);
+
+      toast({
+        description: 'successfull',
+        status: 'success',
+        duration: 5000,
+        position: 'top',
+      });
+      navigate('/booking')
 
     } catch (err) {
       alert(err);
@@ -68,7 +77,7 @@ const SignIn = () => {
               <label>Password</label>
               <input
                 className='w-80 my-4 rounded-[10px] py-2 px-3 outline-none border border-gray-400'
-                type='email'
+                type='password'
                 placeholder='Enter password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
