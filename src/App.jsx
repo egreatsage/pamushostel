@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, unstable_HistoryRouter, useNavigate } from 'react-router-dom'
 import './App.css'
 import Booking from './client/Pages/Booking'
 import ContactUs from './client/Pages/ContactUs'
@@ -32,6 +32,7 @@ import Miscelleanous from './Admin/Pages/Miscelleanous'
 import UserInfo from './client/Pages/UserInfo'
 import TheDashboard from './client/Pages/TheDashboard'
 import UpdateRegisteredUsers from './client/Pages/UpdateRegisteredUsers'
+import Userview from './client/Pages/Userview'
 function App() {
   const [bookingId, setBookingId] = useState('');
   const [occupantId, setOccupantId] = useState('');
@@ -45,6 +46,7 @@ function App() {
   const getRoomIdHandler=(id) =>{
     setRoomId(id);
   }  
+
   return (
   <div className=' overflow-hidden'>
     
@@ -56,6 +58,7 @@ function App() {
           <Route path='/booking' element={
           <HostellarPr><Booking/></HostellarPr>}/>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/userview/:userId' element={<Userview/>}/>
           <Route path='/signin' element={<SignIn/>}/>
           <Route path='/rooms' element={<Rooms id={roomId} setRoomId={setRoomId} getRoomId={getRoomIdHandler}/>}/>
           <Route path='/userlogin' element={<UserLogin/>}/>
