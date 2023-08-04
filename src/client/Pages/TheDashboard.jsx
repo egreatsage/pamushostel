@@ -13,7 +13,7 @@ const TheDashboard = () => {
       <RegisteredUsers/>
       </div>
       <div>
-        <TheRooms/>
+        {/* <TheRooms/> */}
       </div>
     </div>
   )

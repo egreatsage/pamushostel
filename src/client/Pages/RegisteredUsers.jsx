@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import {Button,useToast } from '@chakra-ui/react'
-import {ConfigProvider, Table} from 'antd'
-import { collection, deleteDoc, doc,addDoc, getDocs, orderBy, query, updateDoc } from 'firebase/firestore';
+import { useToast } from '@chakra-ui/react';
+import React, { useState,useEffect } from 'react'
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { collection, deleteDoc, doc,addDoc, getDocs, orderBy, query, updateDoc } from 'firebase/firestore';
 import { db } from '../../Common/dbconfig';
-
-
 const RegisteredUsers = () => {
-  const [registeredUsers, setRegisteredUsers] = useState([]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstname, setFirstname] = useState('')
@@ -16,182 +12,87 @@ const RegisteredUsers = () => {
   const [phonenumber, setPhonenumber] = useState('')
   const [school, setSchool] = useState('')
   const [staytime, setStaytime] = useState('')
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [users, setUsers] = useState([])
+   const toast = useToast()
 
-  const toast = useToast();
-  const fetchRegisteredUsers = async () => {
+  const handleSubmit = async (e)=>{
+    e.preventDefault();
+
     try {
-      const q = query(collection(db, 'RegisteredUsers'), orderBy('createdAt'));
-      const querySnapshot = await getDocs(q);
+      const auth = getAuth();
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userId = userCredential.user.uid;
+       await addDoc(collection(db,'RegisteredUsers'),{
+        email,
+        firstname,
+        lastname,
+        gender,
+        phonenumber,
+        school,
+        staytime
+       })
+       setEmail('');
+       setPassword('');
+       setFirstname('');
+       setLastname('');
+       setGender('');
+       setPhonenumber('');
+       setSchool('');
+       setStaytime('')
 
-      const users = [];
-      console.log(users)
-      querySnapshot.forEach((doc) => {
-        users.push({
-          ...doc.data(),
-          _id: doc.id,
-        });
-      });
-
-      setRegisteredUsers(users);
+       toast({
+        title:`${firstname}`,
+        description:'Registered successfully',
+        status:'success'
+       })
+       fetchUsers();
     } catch (error) {
-      console.error('Error fetching registered users:', error);
+      console.log(error)
       toast({
-        description: 'Error fetching registered users',
+        description:`${error}`,
+        status:"error",
+        duration :9000,
+        position:'top'
+      })
+    }
+  }
+  const fetchUsers = async () => {
+    const usersRef = collection(db, 'RegisteredUsers');
+    const usersSnapshot = await getDocs(usersRef);
+    const usersData = usersSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    setUsers(usersData);
+  };
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+  const handleEdit = (id) => {
+    // Implement the edit functionality here
+    console.log(`Edit user with id: ${id}`);
+  };
+  const handleDelete = async (id) => {
+    // Implement the delete functionality here
+    try {
+      await deleteDoc(doc(db, 'RegisteredUsers', id));
+      toast({
+        title: 'Success',
+        description: 'User deleted successfully',
+        status: 'success',
+      });
+      // After successful deletion, fetch the updated data from Firestore
+      fetchUsers();
+    } catch (error) {
+      console.error('Error deleting document: ', error);
+      toast({
+        description: 'Error deleting user',
         status: 'error',
-        duration: 5000,
+        duration: 9000,
         position: 'top',
       });
     }
   };
-  useEffect(() => {
-    fetchRegisteredUsers();
-  }, []);
-    const handleDeleteUser = async (userId) => {
-      try {
-         await deleteDoc(doc(db, "RegisteredUsers", userId));
-        setRegisteredUsers((prevUsers) => prevUsers.filter((user) => user._id !== userId));
-        toast({
-          description: 'User deleted successfully',
-          status: 'success',
-          duration: 5000,
-          position: 'top',
-        });
-      } catch (error) {
-        console.error('Error deleting user:', error);
-        toast({
-          description: 'Error deleting user',
-          status: 'error',
-          duration: 5000,
-          position: 'top',
-        });
-      }
-    }
-    const columns =[
-      {
-        title:'First name',
-        dataIndex:'firstname',
-        sorter:(a,b) =>a?.firstname.localeCompare(b?.firstname),
-      },
-      {
-        title:'Last name',
-        dataIndex:'lastname',
-        sorter:(a,b) =>a?.lastname.localeCompare(b?.lastname),
-      },
-      {
-        title:'Email',
-        dataIndex:'email',
-        sorter:(a,b) =>a?.email.localeCompare(b?.email),
-      },
-      {
-        title:'Contact',
-        dataIndex:'phonenumber',
-        sorter:(a,b) =>a?.phonenumber.localeCompare(b?.phonenumber),
-      },
-      {
-        title:'Gender',
-        dataIndex:'gender',
-        sorter:(a,b) =>a?.gender.localeCompare(b?.gender),
-      },
-      {
-        title:'School',
-        dataIndex:'school',
-        sorter:(a,b) =>a?.school.localeCompare(b?.school),
-      },
-      {
-        title:'Action',
-        dataIndex:'action',
-        render:(_, n) =>{
-          return(
-           <div className='flex mx-2 '>
-             <div className='mx-2'>
-              <Button  colorScheme='green' onClick={() => handleEditUser(n)} >
-            Edit
-              </Button>
-            </div>
-            <div>
-              <Button  colorScheme='red' onClick={()=>handleDeleteUser(n?._id)}>Delete</Button>
-            </div> 
-           </div>
-          )
-        }
-      }
-    ]
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        if (selectedUser) {
-          const userUpdateData = {
-            firstname,
-            lastname,
-            phonenumber,
-            gender,
-            school,
-            staytime,
-          };
-          await updateDoc(doc(db, 'Bookings', selectedUser.user), {userUpdateData});
-         
-        } else {
-          // Create user with email and password only when adding a new user
-          const auth = getAuth();
-          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-          const userId = userCredential.user.uid;
-    
-          const userData = {
-            email,
-            firstname,
-            lastname,
-            gender,
-            school,
-            staytime,
-            phonenumber,
-            createdAt: new Date().toISOString(),
-            userId,
-          };
-          await addDoc(collection(db, 'RegisteredUsers'), userData);
-          toast({
-            description: 'User created successfully',
-            status: 'success',
-            duration: 5000,
-            position: 'top',
-          });
-    
-          setEmail('');
-          setPassword('');
-          setFirstname('');
-          setLastname('');
-          setGender('');
-          setPhonenumber('');
-          setSchool('');
-          setStaytime('');
-    
-          // Refresh the list of registered users
-          fetchRegisteredUsers();
-        }
-      } catch (error) {
-        console.error('Error creating/updating user:', error);
-        toast({
-          description: 'Error creating/updating user',
-          status: 'error',
-          duration: 5000,
-          position: 'top',
-        });
-      }
-    };
-    
-    const handleEditUser = (user) => {
-      setEmail(user.email)
-      setFirstname(user.firstname);
-      setLastname(user.lastname);
-      setGender(user.gender);
-      setPhonenumber(user.phonenumber);
-      setSchool(user.school);
-      setStaytime(user.staytime);
-      setSelectedUser(user);
-    };
-    
   return (
-    <div>
+   <div>
+      <div>
        <h1 className='text-center flex text-xl ml-5 font-semibold my-7'>Registered Users</h1>
      <div className=''>
      <div className='flex items-center justify-center h-auto md:h-screen md:mt-0'>
@@ -280,32 +181,57 @@ const RegisteredUsers = () => {
       </div>
      </div>
 
-      <div className='overflow-x-auto'>
-        <ConfigProvider
-        theme={{
-          token:{
-            colorPrimary:'#000',
-            colorPrimaryTextActive:"#000",
-            colorPrimaryText:'#808080',
-            colorPrimaryBg:'#fff'
-          },
-        }}  
-        >
-         <div>
-          <Table dataSource={registeredUsers} columns={columns}
-          loading={registeredUsers.length === 0}
-          rowKey = {(data)=>data._id}
-          pagination={{
-          defaultPageSize:5,
-          showSizeChanger:true,
-          pageSizeOptions:["8",'10','11'],
-        }} />
-         </div>
-        </ConfigProvider>
-      </div>
 
     </div>
-  );
-};
+     <div>
 
-export default RegisteredUsers;
+</div>
+<div class="flex flex-col overflow-x-auto">
+  <div class="sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+      <div class="overflow-x-auto">
+      <table class="min-w-full text-left text-sm font-light">
+                  <thead class="border-b font-medium dark:border-neutral-500">
+                    <tr>
+                      <th scope="col" class="px-6 py-4">#</th>
+                      <th scope="col" class="px-6 py-4">Firstname</th>
+                      <th scope="col" class="px-6 py-4">Lastname</th>
+                      <th scope="col" class="px-6 py-4">Gender</th>
+                      <th scope="col" class="px-6 py-4">Phonenumber</th>
+                      <th scope="col" class="px-6 py-4">School</th>
+                      <th scope="col" class="px-6 py-4">Staytime</th>
+                      <th scope="col" class="px-6 py-4">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.map((user, index) => (
+                      <tr key={user.id} class="border-b dark:border-neutral-500">
+                        <td class="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
+                        <td class="whitespace-nowrap px-6 py-4">{user.firstname}</td>
+                        <td class="whitespace-nowrap px-6 py-4">{user.lastname}</td>
+                        <td class="whitespace-nowrap px-6 py-4">{user.gender}</td>
+                        <td class="whitespace-nowrap px-6 py-4">{user.phonenumber}</td>
+                        <td class="whitespace-nowrap px-6 py-4">{user.school}</td>
+                        <td class="whitespace-nowrap px-6 py-4">{user.staytime}</td>
+                        <td class="whitespace-nowrap px-6 py-4">
+                          <button onClick={() => handleEdit(user.id)}>Edit</button>
+                        </td>
+                        <td class="whitespace-nowrap px-6 py-4">
+                          <button onClick={() => handleDelete(user.id)}>Delete</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+
+</div>
+   </div>
+  )
+}
+
+export default RegisteredUsers
