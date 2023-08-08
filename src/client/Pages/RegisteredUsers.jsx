@@ -46,7 +46,8 @@ const RegisteredUsers = () => {
         school,
         staytime,
         userId,
-        email // Use the newly generated userId for new users and existing userId for updates
+        email ,
+        createdAt: new Date().toISOString(),// Use the newly generated userId for new users and existing userId for updates
       });
   
       toast({
@@ -183,7 +184,7 @@ const RegisteredUsers = () => {
                  onChange={e=> setGender(e.target.value)}
                  >
          <option className='pt-9'  value="">Select Gender</option>
-         <option  value='male'>Male</option>
+         <option  value='Male'>Male</option>
          <option  value='Female'>Female</option>
     
       </select>
@@ -229,7 +230,7 @@ const RegisteredUsers = () => {
      <div>
 
 </div>
-<div class="flex flex-col overflow-x-auto">
+<div class="flex flex-col overflow-x-auto mb-8">
   <div class="sm:-mx-6 lg:-mx-8">
     <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
       <div class="overflow-x-auto">
@@ -259,10 +260,11 @@ const RegisteredUsers = () => {
                 <td class="whitespace-nowrap px-6 py-4">{user.email}</td>
                 <td class="whitespace-nowrap px-6 py-4">{user.school}</td>
                 <td class="whitespace-nowrap px-6 py-4">{user.staytime}</td>
+                <td class="whitespace-nowrap px-6 py-4">{user.userId}</td>
                 <td class="whitespace-nowrap flex px-6 gap-3  py-4">
+                <AiFillEye className='text-2xl cursor-pointer text-green-600' onClick={() => navigate(`/userview/${user.id}`)}/>
                   <AiFillEdit className='text-2xl cursor-pointer text-orange-800' onClick={() => handleEdit(user.id)}/>
                   <AiFillDelete className='text-2xl cursor-pointer text-red-600' onClick={() => handleDelete(user.id)}/>
-                  <AiFillEye className='text-2xl cursor-pointer text-green-600' onClick={() => navigate(`/userview/${user.id}`)}/>
                 </td>
               </tr>
             ))}

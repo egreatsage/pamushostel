@@ -42,7 +42,6 @@ const Booking = () => {
     // Add 2000 to the base price if "with food" is selected, otherwise return the base price only
     return withFood ? basePrice + 2000 : basePrice;
   };
-
   useEffect(() => {
     // Calculate the price when the sharing type or food option changes
     const calculatedPrice = calculatePrice(sharingtype);
@@ -60,6 +59,7 @@ const Booking = () => {
         price,
         userId,
         emailaddress,
+        createdAt: new Date().toISOString()
       }
       await addDoc(collection(db, 'Bookings'), formData);
         resetForm(); // Reset the form after submission

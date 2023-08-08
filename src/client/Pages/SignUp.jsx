@@ -48,12 +48,16 @@ const SignUp = () => {
           status:'success',
           duration: 9000,
           position:'top'
-         })
-      setTimeout(() => {
+         }) 
         navigate('/booking')
-       }, 2000);
+   
     } catch (err) {
-      return alert(err);
+      toast({
+        description: `${err.message}`,
+        status:'error',
+        duration: 5000,
+        position:'top'
+       })
     }
   };
 
