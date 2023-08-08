@@ -53,12 +53,12 @@ const Profile = () => {
         <MenuItem  className='my-2 mb-4 bold tracking-wide ml-3 hover:bg-gray-100 px-2 rounded-md py-2 text-black'><button  onClick={handleOpen}>Update Photo</button></MenuItem>
         <MenuItem  className='my-2 mb-4 bold tracking-wide ml-3 hover:bg-gray-100 px-2 rounded-md py-1 text-black'> {user && user.email === "adminpamus@gmail.com" && (
               <div>
-              <Link className='font-bold' to='/dashboard'>My Dashboard</Link>
+              <Link className='font-bold' to='/thedashboard'>My Dashboard</Link>
               </div>
             )}</MenuItem>
-             <MenuItem  className='my-2 mb-4 bold tracking-wide ml-3 hover:bg-gray-100 px-2 rounded-md py-1 text-black'> {user && user.email === "caretaker@gmail.com" && (
+             <MenuItem  className='my-2 mb-4 bold tracking-wide ml-3 hover:bg-gray-100 px-2 rounded-md py-1 text-black'> {user && user.email === "peshy@gmail.com" && (
               <div>
-              <Link className='font-bold' to='/dashboard'>My Dashboard</Link>
+              <Link className='font-bold' to='/thedashboard'>My Dashboard</Link>
               </div>
             )}</MenuItem>
   
