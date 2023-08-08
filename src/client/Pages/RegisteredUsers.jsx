@@ -130,13 +130,13 @@ const RegisteredUsers = () => {
   return (
    <div>
       <div>
-       <h1 className='text-center flex text-xl ml-5 font-semibold my-7'>Registered Users</h1>
+       <h1 className='text-center flex text-xl ml-5 font-semibold mt-16'>Registered Users</h1>
        
-         <div className=''>
-         <div className='flex items-center justify-center h-auto md:h-screen md:mt-0'>
+         <div>
+         <div className='flex items-center justify-center h-auto w-full'>
             <form className='mb-5' onSubmit={handleSubmit} >
             <h1 className='text-center flex text-md font-semibold my-7'>Add/Update User</h1>
-              <div className=' grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 md:gap-4'>
+              <div className=' grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-10 md:gap-4'>
               {!editingUser && (
               <div className='flex flex-col '>
             <label className='text-gray-700' >Email</label>

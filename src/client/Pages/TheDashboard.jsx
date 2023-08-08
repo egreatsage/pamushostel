@@ -7,7 +7,7 @@ const TheDashboard = () => {
   return (
     <div>
       <Navbar/>
-      8<div className='mt-20' >
+      <div className='mt-20' >
       <Tabs>
   <div className='fixed bg-white border-b w-full overflow-x-auto mt-3'>
   <TabList>
