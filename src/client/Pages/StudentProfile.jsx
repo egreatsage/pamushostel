@@ -12,6 +12,7 @@ import moment from 'moment';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../Common/dbconfig';
 import UserInfo from './UserInfo';
+import Loader from '../Components/Loader';
 const StudentProfile = () => {
     const { user,} = useUserAuth();
     const [occupants, setOccupants] = useState([]);
@@ -132,7 +133,9 @@ const StudentProfile = () => {
           <div className="divider mx-3 rounded-lg mb-3 my-3 md:hidden lg:hidden xl:hidden sm:hidden"></div>
         </div>
         )})):(
-        <p>loading</p>
+       <div>
+        <p>loading info ...</p>
+       </div>
         )}
         </div>
         </div>

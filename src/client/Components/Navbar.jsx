@@ -32,7 +32,7 @@ const Navbar = () => {
             <div className="ml-10 flex items-baseline space-x-4">
               <Link to={'/'} className="text-gray-900 hover:bg-gray-200  hover:font-bold px-3 py-2 rounded-md text-sm font-bold">Home</Link>
               {/* <Link to={'/'} className="text-gray-900 hover:bg-gray-200  hover:font-bold px-3 py-2 rounded-md text-sm font-bold">About</Link> */}
-              <Link to={'/studentprofile'} className="text-gray-900 hover:bg-gray-200  hover:font-bold px-3 py-2 rounded-md text-sm font-bold">Student</Link>
+              <Link to={'/studentprofile'} className="text-gray-900 hover:bg-gray-200  hover:font-bold px-3 py-2 rounded-md text-sm font-bold">Resident</Link>
               {user ? (
       <Link to={'/booking'} className="text-[orange] hover:bg-gray-200 opacity-100  hover:font-bold px-3 py-2 rounded-full hover:border text-sm font-bold">Book Now</Link>
       ) : (

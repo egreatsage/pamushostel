@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import {  useNavigate } from 'react-router-dom';
 import { useUserAuth } from '../../Common/UserAuthContext';
 import Navbar from '../Components/Navbar';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import { db } from '../../Common/dbconfig';
 import { useToast } from '@chakra-ui/react';
 
@@ -61,7 +61,7 @@ const Booking = () => {
         emailaddress,
         createdAt: new Date().toISOString()
       }
-      await addDoc(collection(db, 'Bookings'), formData);
+      await setDoc(doc(db, 'RegisteredUsers', userId), formData);
         resetForm(); // Reset the form after submission
         toast({
           description: 'Booking was successfull,please wait for a reply from the hostel',

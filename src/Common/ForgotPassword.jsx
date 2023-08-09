@@ -1,12 +1,15 @@
+import React from 'react'
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../client/Components/Navbar";
-import OAuth from "./OAuth";
+import { useToast } from '@chakra-ui/react';
 
-export default function ForgotPassword() {
+
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
+  const toast = useToast();
   function onChange(e) {
     setEmail(e.target.value);
   }
@@ -15,55 +18,48 @@ export default function ForgotPassword() {
     try {
       const auth = getAuth();
       await sendPasswordResetEmail(auth, email);
-      toast.success("Email was sent");
-      navigate('/')
+      toast({
+        description:'please check your email for your password reset link',
+        status:'success',
+        duration:9000,
+        position:'top'
+  
+     })
+   setTimeout(() => {
+    navigate('/')
+   }, 10000);
     } catch (error) {
-      // toast.error("Could not send reset password,try logging in with email and password");
+   toast({
+      description:`${error.message}`,
+      status:'error',
+      duration:9000,
+      position:'top'
+
+   })
     }
   }
-  
   return (
     <div>
-         <div className='fixed top-2 z-10 w-full'>
-   <Navbar/>
-    </div>
-        <section className="mt-32">
-      <h1 className="text-3xl text-center mt-6 font-bold">Forgot Password</h1>
-      <div className="flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto">
-        <div className="md:w-[67%] lg:w-[50%] mb-12 md:mb-6">
-          <img
-            src="https://images.unsplash.com/flagged/photo-1564767609342-620cb19b2357?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1373&q=80"
-            alt="key"
-            className="w-full rounded-2xl"
-          />
-        </div>
-        <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20">
-          <form onSubmit={onSubmit}>
-            <input
+      <Navbar/>
+      <div className='flex items-center justify-center h-screen'>
+             <div className='flex flex-col border px-10 py-20 shadow-lg rounded-md mt-2 mb-2'>
+              <h1 className='text-center flex text-2xl font-semibold my-7'>Reset Your Password</h1>
+              <label >Enter Your email address </label>
+              <form className='flex flex-col' onSubmit={onSubmit}>
+             <input
+              className='w-80 my-4 rounded-[10px] py-2 px-3 outline-none border border-gray-400'
               type="email"
               id="email"
               value={email}
               onChange={onChange}
               placeholder="Email address"
-              className="mb-6 w-full px-4  py-2 text-xl border text-gray-700 bg-white border-gray-300 rounded-full transition ease-in-out"
-            />
-
-          
-            <button
-              className="w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded-full shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800"
-              type="submit"
-            >
-              Send reset password
-            </button>
-            <div className="flex items-center  my-4 before:border-t before:flex-1 before:border-gray-300 after:border-t after:flex-1 after:border-gray-300">
-              <p className="text-center font-semibold mx-4">OR</p>
-            </div>
-            <OAuth />
-          </form>
-        </div>
+             />
+               <button className='w-80 my-4 rounded-[10px] py-2 px-3 outline-none border bg-gray-800 text-white text-xl font-semibold border-gray-400' type='submit'>Submit</button>
+               </form>
+             </div>
       </div>
-    </section>
     </div>
-  
-  );
+  )
 }
+
+export default ForgotPassword

@@ -19,12 +19,30 @@ const Userview = () => {
   const [roomno, setRoomno] = useState('')
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUserAndBooking = async () => {
       try {
         const userRef = doc(db, 'RegisteredUsers', userId);
         const userSnapshot = await getDoc(userRef);
         if (userSnapshot.exists()) {
           setUser(userSnapshot.data());
+    
+          const bookingQuery = query(
+            collection(db, 'Bookings'),
+            where('userId', '==', userId)
+          );
+          const bookingsSnapshot = await getDocs(bookingQuery);
+          const bookingDocs = bookingsSnapshot.docs;
+          console.log('Booking Docs:', bookingDocs); // Log the bookingDocs
+    
+          if (bookingDocs.length > 0) {
+            const bookingData = bookingDocs[0].data();
+            console.log('Booking Data:', bookingData); // Log the bookingData to verify its structure
+            setFirstname(bookingData.firstname);
+            setLastname(bookingData.lastname);
+            setPhonenumber(bookingData.phonenumber);
+            setStaytime(bookingData.staytime);
+            setRoomno(bookingData.roomno);
+          }
         }
       } catch (error) {
         console.log(error);
@@ -68,7 +86,7 @@ const Userview = () => {
       }
     };
 
-    fetchUser();
+    fetchUserAndBooking();
     fetchRooms();
   }, [userId, user?.gender]);
 
@@ -104,16 +122,15 @@ const Userview = () => {
 
      {/* booking info */}
 
-     {/* <div>
+    <div className='mt-8'>
      <h1>Booking  Information</h1>
-      <p>check-in date: {booking.checkindate}</p>
-      <p>check-out date: {booking.checkoutdate}</p>
-      <p>Email: {booking.emailaddress}</p>
-      <p>School: {booking.sharingtype}</p>
-      <p>Staytime: {booking.withFood}</p>
-      <p>Total Price: {booking.price}</p>
-      <p>userId: {booking.userId}</p>
-     </div> */}
+      <p>check-in date:{user.checkindate}</p>
+      <p>check-out date: {user.checkoutdate}</p>
+      <p>Email:{user.email} </p>
+      <p>Staytime:{user.staytime} </p>
+      <p>Total Price: {user.price} </p>
+      <p>userId:{user.userId} </p>
+     </div> 
       {/* <div>
         <form onSubmit={handleSubmit}>
           <label htmlFor="firstName">firstname</label>
